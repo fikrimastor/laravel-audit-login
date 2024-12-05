@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace FikriMastor\LaravelAuditLogin\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelAuditLoginCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-audit-login';
 
     public $description = 'My command';
 
