@@ -2,9 +2,9 @@
 
 namespace FikriMastor\LaravelAuditLogin;
 
+use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
 
 class LaravelAuditLoginServiceProvider extends PackageServiceProvider
 {

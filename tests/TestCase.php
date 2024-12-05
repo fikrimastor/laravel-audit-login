@@ -2,9 +2,9 @@
 
 namespace FikriMastor\LaravelAuditLogin\Tests;
 
+use FikriMastor\LaravelAuditLogin\LaravelAuditLoginServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use FikriMastor\LaravelAuditLogin\LaravelAuditLoginServiceProvider;
 
 class TestCase extends Orchestra
 {
