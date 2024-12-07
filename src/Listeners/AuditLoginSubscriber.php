@@ -12,9 +12,10 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 
-class AuditLoginSubscriber
+class AuditLoginSubscriber implements ShouldQueue
 {
     public array $attributes = [];
 
