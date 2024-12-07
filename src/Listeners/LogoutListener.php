@@ -8,12 +8,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LogoutListener implements ShouldQueue
 {
+    protected array $attributes = [];
+
     /**
      * Create a new event handler instance.
      */
     public function __construct(protected LogoutEventContract $contract)
     {
-        //
+        $this->attributes = [
+            'url' => request()->fullUrl(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ];
     }
 
     /**
@@ -21,10 +27,6 @@ class LogoutListener implements ShouldQueue
      */
     public function handle(Logout $event): void
     {
-        $this->contract->handle($event, [
-            'url' => request()->fullUrl(),
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]);
+        $this->contract->handle($event, $this->attributes);
     }
 }
