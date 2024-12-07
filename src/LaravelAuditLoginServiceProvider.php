@@ -2,12 +2,12 @@
 
 namespace FikriMastor\LaravelAuditLogin;
 
+use FikriMastor\LaravelAuditLogin\Actions\FailedLoginEvent;
+use FikriMastor\LaravelAuditLogin\Actions\LoginEvent;
+use FikriMastor\LaravelAuditLogin\Actions\LogoutEvent;
+use FikriMastor\LaravelAuditLogin\Actions\PasswordResetEvent;
+use FikriMastor\LaravelAuditLogin\Actions\RegisteredEvent;
 use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
-use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\LaravelAuditLogin\Listeners\AuditLoginSubscriber;
 use FikriMastor\LaravelAuditLogin\Listeners\FailedListener;
 use FikriMastor\LaravelAuditLogin\Listeners\LoginListener;
@@ -44,11 +44,11 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
-        LaravelAuditLogin::recordRegisteredUsing(RegisteredEventContract::class);
-        LaravelAuditLogin::recordLoginUsing(LoginEventContract::class);
-        LaravelAuditLogin::recordFailedLoginUsing(FailedLoginEventContract::class);
-        LaravelAuditLogin::recordLogoutUsing(LogoutEventContract::class);
-        LaravelAuditLogin::recordForgotPasswordUsing(PasswordResetEventContract::class);
+        LaravelAuditLogin::recordRegisteredUsing(RegisteredEvent::class);
+        LaravelAuditLogin::recordLoginUsing(LoginEvent::class);
+        LaravelAuditLogin::recordFailedLoginUsing(FailedLoginEvent::class);
+        LaravelAuditLogin::recordLogoutUsing(LogoutEvent::class);
+        LaravelAuditLogin::recordForgotPasswordUsing(PasswordResetEvent::class);
 
         Event::subscribe(new AuditLoginSubscriber([
             'url' => request()->fullUrl(),
