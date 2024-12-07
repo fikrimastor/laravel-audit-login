@@ -3,6 +3,8 @@
 namespace FikriMastor\LaravelAuditLogin;
 
 use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
+use FikriMastor\LaravelAuditLogin\Listeners\AuditLoginSubscriber;
+use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -19,7 +21,14 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
             ->name('laravel-audit-login')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_laravel_audit_login_table')
+            ->hasMigration('create_audit_logins_table')
             ->hasCommand(LaravelAuditLoginCommand::class);
+    }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        Event::subscribe(AuditLoginSubscriber::class);
     }
 }
