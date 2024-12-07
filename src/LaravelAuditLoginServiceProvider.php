@@ -2,13 +2,17 @@
 
 namespace FikriMastor\LaravelAuditLogin;
 
-use FikriMastor\LaravelAuditLogin\Actions\{FailedLoginEvent, LoginEvent, LogoutEvent, PasswordResetEvent, RegisteredEvent};
+use FikriMastor\LaravelAuditLogin\Actions\FailedLoginEvent;
+use FikriMastor\LaravelAuditLogin\Actions\LoginEvent;
+use FikriMastor\LaravelAuditLogin\Actions\LogoutEvent;
+use FikriMastor\LaravelAuditLogin\Actions\PasswordResetEvent;
+use FikriMastor\LaravelAuditLogin\Actions\RegisteredEvent;
 use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
+use FikriMastor\LaravelAuditLogin\Facades\LaravelAuditLogin;
 use FikriMastor\LaravelAuditLogin\Listeners\AuditLoginSubscriber;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use FikriMastor\LaravelAuditLogin\Facades\LaravelAuditLogin;
 
 class LaravelAuditLoginServiceProvider extends PackageServiceProvider
 {
