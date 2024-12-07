@@ -6,18 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    private $table = '';
-    private $connection = '';
+    private $tableName = '';
+    private $databaseConnection = '';
 
     public function __construct()
     {
-        $this->table = config('audit-login.drivers.database.table', 'audit_logins');
-        $this->connection = config('audit-login.drivers.database.connection', config('database.default'));
+        $this->tableName = config('audit-login.drivers.database.table', 'audit_logins');
+        $this->databaseConnection = config('audit-login.drivers.database.connection', config('database.default'));
     }
 
     public function up()
     {
-        Schema::connection($this->connection)->create($this->table, function (Blueprint $table) {
+        Schema::connection($this->databaseConnection)->create($this->tableName, function (Blueprint $table) {
             $morphPrefix = config('audit-login.user.morph_prefix', 'user');
 
             $table->id();
@@ -35,6 +35,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::connection($this->connection)->dropIfExists($this->table);
+        Schema::connection($this->databaseConnection)->dropIfExists($this->tableName);
     }
 };
