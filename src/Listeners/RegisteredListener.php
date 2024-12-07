@@ -4,16 +4,19 @@ namespace FikriMastor\LaravelAuditLogin\Listeners;
 
 use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RegisteredListener implements ShouldQueue
+class RegisteredListener
 {
     /**
      * Create a new event handler instance.
      */
     public function __construct(protected RegisteredEventContract $contract, protected array $attributes = [])
     {
-        //
+        $this->attributes = [
+            'url' => request()->fullUrl(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ];
     }
 
     /**
