@@ -11,10 +11,6 @@ class LaravelAuditLogin
 {
     /**
      * Audit an event.
-     *
-     * @param  array  $attributes
-     * @param  Authenticatable|null  $user
-     * @return void
      */
     public static function auditEvent(array $attributes, ?Authenticatable $user = null): void
     {
