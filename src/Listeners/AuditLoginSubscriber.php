@@ -2,20 +2,11 @@
 
 namespace FikriMastor\LaravelAuditLogin\Listeners;
 
-use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
-use Illuminate\Auth\Events\Failed;
-use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use FikriMastor\LaravelAuditLogin\Contracts\{FailedLoginEventContract, LoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
+use Illuminate\Auth\Events\{Failed, Login, Logout, PasswordReset, Registered};
 use Illuminate\Events\Dispatcher;
 
-class AuditLoginSubscriber implements ShouldQueue
+class AuditLoginSubscriber
 {
     public array $attributes = [];
 
@@ -95,13 +86,5 @@ class AuditLoginSubscriber implements ShouldQueue
             Failed::class => 'handleFailedEventLog',
             Registered::class => 'handleRegisteredEventLog',
         ];
-    }
-
-    /**
-     * Handle a job failure.
-     */
-    public function failed($event, $exception): void
-    {
-        report($exception);
     }
 }
