@@ -20,7 +20,6 @@ class AuditLogin extends Model
         'old_values' => 'json',
         'new_values' => 'json',
         'event' => EventTypeEnum::class,
-        // Note: Please do not add 'auditable_id' in here, as it will break non-integer PK models
     ];
 
     /**
@@ -28,6 +27,7 @@ class AuditLogin extends Model
      */
     public function auditable(): MorphTo
     {
-        return $this->morphTo();
+        $morphPrefix = config('audit-login.user.morph_prefix', 'login_auditable');
+        return $this->morphTo(__FUNCTION__, $morphPrefix . '_type', $morphPrefix . '_id');
     }
 }

@@ -8,9 +8,10 @@ use Illuminate\Auth\Events\Registered;
 
 class RegisteredEvent extends BaseEvent implements RegisteredEventContract
 {
+    protected EventTypeEnum $eventType = EventTypeEnum::REGISTER;
+
     public function handle(Registered $event, array $attributes): void
     {
-        $this->eventType = EventTypeEnum::REGISTER;
         $this->attributes = $attributes;
         $this->user = $event->user;
         $this->execute();

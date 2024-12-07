@@ -2,42 +2,45 @@
 
 namespace FikriMastor\LaravelAuditLogin;
 
-use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\LaravelAuditLogin\Exceptions\BadRequestException;
 use FikriMastor\LaravelAuditLogin\Models\AuditLogin;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class LaravelAuditLogin
 {
     /**
      * Audit an event.
      *
-     * @throws \Throwable
+     * @param  array  $attributes
+     * @param  Authenticatable|null  $user
+     * @return void
      */
-    public static function auditEvent(array $attributes, ?Authenticatable $user = null): Model
+    public static function auditEvent(array $attributes, ?Authenticatable $user = null): void
     {
-        throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditableTrait trait.'));
+        try {
+            DB::transaction(static function () use ($attributes, $user) {
+                throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditableTrait trait.'));
 
-        throw_if(! isset($attributes['event']), new BadRequestException('The event_type must not be empty.'));
+                throw_if(! isset($attributes['event']), new BadRequestException('The event_type must not be empty.'));
 
-        if (! $user instanceof Authenticatable) {
-            $morphPrefix = config('audit-login.user.morph_prefix', 'user');
+                if (! $user instanceof Authenticatable) {
+                    $morphPrefix = config('audit-login.user.morph_prefix', 'user');
 
-            $dataMissing = [
-                $morphPrefix.'_id' => null,
-                $morphPrefix.'_type' => $morphPrefix,
-            ];
+                    $dataMissing = [
+                        $morphPrefix.'_id' => null,
+                        $morphPrefix.'_type' => $morphPrefix,
+                    ];
 
-            return AuditLogin::create(array_merge($attributes, $dataMissing));
+                    return AuditLogin::create(array_merge($attributes, $dataMissing));
+                }
+
+                // Create an audit entry with a custom event (e.g., login, logout)
+                return $user->auditLogin()->create($attributes);
+            });
+        } catch (\Throwable $e) {
+            report($e);
         }
-
-        // Create an audit entry with a custom event (e.g., login, logout)
-        return $user->auditLogin()->create($attributes);
     }
 
     /**
@@ -45,7 +48,7 @@ class LaravelAuditLogin
      */
     public static function recordLoginUsing(string $callback): void
     {
-        app()->bind(LoginEventContract::class, $callback);
+        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract::class, $callback);
     }
 
     /**
@@ -53,7 +56,7 @@ class LaravelAuditLogin
      */
     public static function recordLogoutUsing(string $callback): void
     {
-        app()->bind(LogoutEventContract::class, $callback);
+        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract::class, $callback);
     }
 
     /**
@@ -61,7 +64,7 @@ class LaravelAuditLogin
      */
     public static function recordForgotPasswordUsing(string $callback): void
     {
-        app()->bind(PasswordResetEventContract::class, $callback);
+        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract::class, $callback);
     }
 
     /**
@@ -69,7 +72,7 @@ class LaravelAuditLogin
      */
     public static function recordFailedLoginUsing(string $callback): void
     {
-        app()->bind(FailedLoginEventContract::class, $callback);
+        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract::class, $callback);
     }
 
     /**
@@ -77,6 +80,6 @@ class LaravelAuditLogin
      */
     public static function recordRegisteredUsing(string $callback): void
     {
-        app()->bind(RegisteredEventContract::class, $callback);
+        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract::class, $callback);
     }
 }
