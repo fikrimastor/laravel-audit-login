@@ -2,41 +2,24 @@
 
 namespace FikriMastor\LaravelAuditLogin\Listeners;
 
-use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use FikriMastor\LaravelAuditLogin\Contracts\{LoginEventContract, FailedLoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 
 class AuditLoginSubscriber implements ShouldQueue
 {
-    public array $attributes = [];
-    //    protected $loginEventContract;
-    //    protected $logoutEventContract;
-    //    protected $failedLoginEventContract;
-    //    protected $passwordResetEventContract;
-    //    protected $registeredEventContract;
-
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(
-        //        private readonly LoginEventContract $loginEventContract,
-        //        private readonly LogoutEventContract $logoutEventContract,
-        //        private readonly FailedLoginEventContract $failedLoginEventContract,
-        //        private readonly PasswordResetEventContract $passwordResetEventContract,
-        //        private readonly RegisteredEventContract $registeredEventContract
-    ) {
-
+    public function __construct(public array $attributes = [])
+    {
         $this->attributes = [
             'url' => request()->fullUrl(),
             'ip_address' => request()->ip(),
@@ -45,31 +28,53 @@ class AuditLoginSubscriber implements ShouldQueue
     }
 
     /**
-     * Handle the event.
+     * Handle the login event.
+     *
+     * @throws \Exception
      */
     public function handleLoginEventLog(Login $event): void
     {
-        $this->loginEventContract->handle($event, $this->attributes);
+        resolve(LoginEventContract::class)->handle($event, $this->attributes);
     }
 
+    /**
+     * Handle the failed login event.
+     *
+     * @throws \Exception
+     */
     public function handleFailedEventLog(Failed $event): void
     {
-        $this->failedLoginEventContract->handle($event, $this->attributes);
+        resolve(FailedLoginEventContract::class)->handle($event, $this->attributes);
     }
 
+    /**
+     * Handle the password reset event.
+     *
+     * @throws \Exception
+     */
     public function handlePasswordResetEventLog(PasswordReset $event): void
     {
-        $this->passwordResetEventContract->handle($event, $this->attributes);
+        resolve(PasswordResetEventContract::class)->handle($event, $this->attributes);
     }
 
+    /**
+     * Handle the registered event.
+     *
+     * @throws \Exception
+     */
     public function handleRegisteredEventLog(Registered $event): void
     {
-        $this->registeredEventContract->handle($event, $this->attributes);
+        resolve(RegisteredEventContract::class)->handle($event, $this->attributes);
     }
 
+    /**
+     * Handle the logout event.
+     *
+     * @throws \Exception
+     */
     public function handleLogoutEventLog(Logout $event): void
     {
-        $this->logoutEventContract->handle($event, $this->attributes);
+        resolve(LogoutEventContract::class)->handle($event, $this->attributes);
     }
 
     /**
