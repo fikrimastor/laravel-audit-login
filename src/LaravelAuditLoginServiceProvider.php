@@ -3,8 +3,16 @@
 namespace FikriMastor\LaravelAuditLogin;
 
 use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
-use FikriMastor\LaravelAuditLogin\Listeners\{LoginListener, LogoutListener, FailedListener, PasswordResetListener, RegisteredListener};
-use FikriMastor\LaravelAuditLogin\Contracts\{LoginEventContract, FailedLoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
+use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\LaravelAuditLogin\Listeners\FailedListener;
+use FikriMastor\LaravelAuditLogin\Listeners\LoginListener;
+use FikriMastor\LaravelAuditLogin\Listeners\LogoutListener;
+use FikriMastor\LaravelAuditLogin\Listeners\PasswordResetListener;
+use FikriMastor\LaravelAuditLogin\Listeners\RegisteredListener;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
