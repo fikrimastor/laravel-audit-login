@@ -17,6 +17,7 @@ abstract class BaseEvent
 
     protected function execute(): void
     {
+        $this->attributes['event'] = $this->eventType;
         DB::transaction(fn () => LaravelAuditLogin::auditEvent($this->attributes, $this->user));
     }
 }
