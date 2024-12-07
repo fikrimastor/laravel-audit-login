@@ -55,10 +55,10 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]));
-//        Event::listen(Login::class, LoginListener::class);
-//        Event::listen(Logout::class, LogoutListener::class);
-//        Event::listen(Failed::class, FailedListener::class);
-//        Event::listen(Registered::class, RegisteredListener::class);
-//        Event::listen(PasswordReset::class, PasswordResetListener::class);
+        //        Event::listen(Login::class, LoginListener::class);
+        //        Event::listen(Logout::class, LogoutListener::class);
+        //        Event::listen(Failed::class, FailedListener::class);
+        //        Event::listen(Registered::class, RegisteredListener::class);
+        //        Event::listen(PasswordReset::class, PasswordResetListener::class);
     }
 }

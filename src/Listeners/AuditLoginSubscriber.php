@@ -24,11 +24,11 @@ class AuditLoginSubscriber implements ShouldQueue
      */
     public function __construct(public array $attributes = [])
     {
-//        $this->attributes = [
-//            'url' => request()->fullUrl(),
-//            'ip_address' => request()->ip(),
-//            'user_agent' => request()->userAgent(),
-//        ];
+        //        $this->attributes = [
+        //            'url' => request()->fullUrl(),
+        //            'ip_address' => request()->ip(),
+        //            'user_agent' => request()->userAgent(),
+        //        ];
     }
 
     /**
