@@ -16,18 +16,20 @@ use Illuminate\Events\Dispatcher;
 
 class AuditLoginSubscriber
 {
+    public array $attributes = [];
+
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(public array $attributes = [])
+    public function __construct()
     {
-        //        $this->attributes = [
-        //            'url' => request()->fullUrl(),
-        //            'ip_address' => request()->ip(),
-        //            'user_agent' => request()->userAgent(),
-        //        ];
+        $this->attributes = [
+            'url' => request()->fullUrl(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ];
     }
 
     /**

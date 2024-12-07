@@ -40,10 +40,6 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
         LaravelAuditLogin::recordLogoutUsing(LogoutEvent::class);
         LaravelAuditLogin::recordForgotPasswordUsing(PasswordResetEvent::class);
 
-        Event::subscribe(new AuditLoginSubscriber([
-            'url' => request()->fullUrl(),
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]));
+        Event::subscribe(AuditLoginSubscriber::class);
     }
 }
