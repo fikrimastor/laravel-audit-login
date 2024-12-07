@@ -3,6 +3,8 @@
 namespace FikriMastor\LaravelAuditLogin;
 
 use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
+use FikriMastor\LaravelAuditLogin\Listeners\{LoginListener, LogoutListener, FailedListener, PasswordResetListener, RegisteredListener};
+use FikriMastor\LaravelAuditLogin\Contracts\{LoginEventContract, FailedLoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
@@ -31,7 +33,7 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
         parent::boot();
 
         $this->app->bind(
-            \FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract::class,
+            LoginEventContract::class,
             \FikriMastor\LaravelAuditLogin\Actions\LoginEvent::class
         );
         $this->app->bind(
@@ -51,24 +53,35 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
             \FikriMastor\LaravelAuditLogin\Actions\RegisteredEvent::class
         );
 
+        $attributes = [
+            'url' => request()->fullUrl(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ];
+
         Event::listen(
             \Illuminate\Auth\Events\Login::class,
-            \FikriMastor\LaravelAuditLogin\Listeners\LoginListener::class
+            static fn (LoginEventContract $contract) => new LoginListener($contract, $attributes)
         );
 
         Event::listen(
             \Illuminate\Auth\Events\Logout::class,
-            \FikriMastor\LaravelAuditLogin\Listeners\LogoutListener::class
+            static fn (LogoutEventContract $contract) => new LogoutListener($contract, $attributes)
         );
 
         Event::listen(
             \Illuminate\Auth\Events\Failed::class,
-            \FikriMastor\LaravelAuditLogin\Listeners\FailedListener::class
+            static fn (FailedLoginEventContract $contract) => new FailedListener($contract, $attributes)
         );
 
         Event::listen(
             \Illuminate\Auth\Events\Registered::class,
-            \FikriMastor\LaravelAuditLogin\Listeners\RegisteredListener::class
+            static fn (RegisteredEventContract $contract) => new RegisteredListener($contract, $attributes)
+        );
+
+        Event::listen(
+            \Illuminate\Auth\Events\PasswordReset::class,
+            static fn (PasswordResetEventContract $contract) => new PasswordResetListener($contract, $attributes)
         );
     }
 

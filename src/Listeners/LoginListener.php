@@ -8,18 +8,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LoginListener implements ShouldQueue
 {
-    protected array $attributes = [];
-
     /**
      * Create a new event handler instance.
      */
-    public function __construct(protected LoginEventContract $contract)
+    public function __construct(protected LoginEventContract $contract, protected array $attributes = [])
     {
-        $this->attributes = [
-            'url' => request()->fullUrl(),
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ];
+        //
     }
 
     /**
