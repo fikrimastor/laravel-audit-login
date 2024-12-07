@@ -2,7 +2,11 @@
 
 namespace FikriMastor\LaravelAuditLogin;
 
-use FikriMastor\LaravelAuditLogin\Contracts\{LoginEventContract, FailedLoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
+use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\LaravelAuditLogin\Exceptions\BadRequestException;
 use FikriMastor\LaravelAuditLogin\Models\AuditLogin;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -38,9 +42,6 @@ class LaravelAuditLogin
 
     /**
      * Register a class / callback that should be used to record login event.
-     *
-     * @param  string  $callback
-     * @return void
      */
     public static function recordLoginUsing(string $callback): void
     {
@@ -49,9 +50,6 @@ class LaravelAuditLogin
 
     /**
      * Register a class / callback that should be used to record logout event.
-     *
-     * @param  string  $callback
-     * @return void
      */
     public static function recordLogoutUsing(string $callback): void
     {
@@ -60,9 +58,6 @@ class LaravelAuditLogin
 
     /**
      * Register a class / callback that should be used to record forgot password event.
-     *
-     * @param  string  $callback
-     * @return void
      */
     public static function recordForgotPasswordUsing(string $callback): void
     {
@@ -71,9 +66,6 @@ class LaravelAuditLogin
 
     /**
      * Register a class / callback that should be used to record failed login event.
-     *
-     * @param  string  $callback
-     * @return void
      */
     public static function recordFailedLoginUsing(string $callback): void
     {
@@ -82,9 +74,6 @@ class LaravelAuditLogin
 
     /**
      * Register a class / callback that should be used to record registered event.
-     *
-     * @param  string  $callback
-     * @return void
      */
     public static function recordRegisteredUsing(string $callback): void
     {

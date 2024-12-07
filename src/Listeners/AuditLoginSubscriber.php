@@ -2,13 +2,17 @@
 
 namespace FikriMastor\LaravelAuditLogin\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use FikriMastor\LaravelAuditLogin\Contracts\{LoginEventContract, FailedLoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
+use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 
 class AuditLoginSubscriber implements ShouldQueue
