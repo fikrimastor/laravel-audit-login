@@ -18,11 +18,11 @@ use Illuminate\Events\Dispatcher;
 class AuditLoginSubscriber implements ShouldQueue
 {
     public array $attributes = [];
-//    protected $loginEventContract;
-//    protected $logoutEventContract;
-//    protected $failedLoginEventContract;
-//    protected $passwordResetEventContract;
-//    protected $registeredEventContract;
+    //    protected $loginEventContract;
+    //    protected $logoutEventContract;
+    //    protected $failedLoginEventContract;
+    //    protected $passwordResetEventContract;
+    //    protected $registeredEventContract;
 
     /**
      * Create the event listener.
@@ -30,11 +30,11 @@ class AuditLoginSubscriber implements ShouldQueue
      * @return void
      */
     public function __construct(
-//        private readonly LoginEventContract $loginEventContract,
-//        private readonly LogoutEventContract $logoutEventContract,
-//        private readonly FailedLoginEventContract $failedLoginEventContract,
-//        private readonly PasswordResetEventContract $passwordResetEventContract,
-//        private readonly RegisteredEventContract $registeredEventContract
+        //        private readonly LoginEventContract $loginEventContract,
+        //        private readonly LogoutEventContract $logoutEventContract,
+        //        private readonly FailedLoginEventContract $failedLoginEventContract,
+        //        private readonly PasswordResetEventContract $passwordResetEventContract,
+        //        private readonly RegisteredEventContract $registeredEventContract
     ) {
 
         $this->attributes = [
