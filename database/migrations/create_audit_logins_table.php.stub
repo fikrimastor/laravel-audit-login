@@ -21,8 +21,9 @@ return new class extends Migration
             $morphPrefix = config('audit-login.user.morph_prefix', 'user');
 
             $table->id();
+            $table->unsignedBigInteger($morphPrefix . '_id')->nullable();
+            $table->string($morphPrefix . '_type')->nullable();
             $table->string('event');
-            $table->morphs($morphPrefix)->nullable();
             $table->text('metadata')->nullable();
             $table->text('url')->nullable();
             $table->ipAddress('ip_address')->nullable();
