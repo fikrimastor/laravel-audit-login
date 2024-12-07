@@ -8,7 +8,6 @@ use Illuminate\Auth\Events\Logout;
 
 class LogoutEvent extends BaseEvent implements LogoutEventContract
 {
-
     public function handle(Logout $event, array $attributes): void
     {
         $this->eventType = EventTypeEnum::LOGOUT;

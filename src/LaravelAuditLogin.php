@@ -3,9 +3,9 @@
 namespace FikriMastor\LaravelAuditLogin;
 
 use FikriMastor\LaravelAuditLogin\Exceptions\BadRequestException;
+use FikriMastor\LaravelAuditLogin\Models\AuditLogin;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use FikriMastor\LaravelAuditLogin\Models\AuditLogin;
 
 class LaravelAuditLogin
 {
@@ -14,7 +14,7 @@ class LaravelAuditLogin
      *
      * @throws \Throwable
      */
-    public static function auditEvent(array $attributes, Authenticatable|null $user = null): Model
+    public static function auditEvent(array $attributes, ?Authenticatable $user = null): Model
     {
         throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditableTrait trait.'));
 
@@ -24,8 +24,8 @@ class LaravelAuditLogin
             $morphPrefix = config('audit-login.user.morph_prefix', 'user');
 
             $dataMissing = [
-                $morphPrefix . '_id'    => null,
-                $morphPrefix . '_type'  => $morphPrefix,
+                $morphPrefix.'_id' => null,
+                $morphPrefix.'_type' => $morphPrefix,
             ];
 
             return AuditLogin::create(array_merge($attributes, $dataMissing));

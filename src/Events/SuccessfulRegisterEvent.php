@@ -2,7 +2,4 @@
 
 namespace FikriMastor\LaravelAuditLogin\Events;
 
-class SuccessfulRegisterEvent
-{
-
-}
+class SuccessfulRegisterEvent {}

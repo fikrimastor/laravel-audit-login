@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 abstract class BaseEvent
 {
     protected ?EventTypeEnum $eventType;
+
     protected array $attributes = [];
 
     protected ?Authenticatable $user = null;

@@ -8,7 +8,6 @@ use Illuminate\Auth\Events\Failed;
 
 class FailedLoginEvent extends BaseEvent implements FailedLoginEventContract
 {
-
     public function handle(Failed $event, array $attributes): void
     {
         $this->eventType = EventTypeEnum::FAILED_LOGIN;

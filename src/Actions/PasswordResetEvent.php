@@ -8,7 +8,6 @@ use Illuminate\Auth\Events\PasswordReset;
 
 class PasswordResetEvent extends BaseEvent implements PasswordResetEventContract
 {
-
     public function handle(PasswordReset $event, array $attributes): void
     {
         $this->eventType = EventTypeEnum::RESET_PASSWORD;

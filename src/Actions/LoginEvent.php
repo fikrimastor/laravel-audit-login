@@ -8,7 +8,6 @@ use Illuminate\Auth\Events\Login;
 
 class LoginEvent extends BaseEvent implements LoginEventContract
 {
-
     public function handle(Login $event, array $attributes): void
     {
         $this->eventType = EventTypeEnum::LOGIN;

@@ -2,8 +2,16 @@
 
 namespace FikriMastor\LaravelAuditLogin\Listeners;
 
-use FikriMastor\LaravelAuditLogin\Contracts\{FailedLoginEventContract, LoginEventContract, LogoutEventContract, PasswordResetEventContract, RegisteredEventContract};
-use Illuminate\Auth\Events\{Failed, Login, Logout, PasswordReset, Registered};
+use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 
@@ -19,18 +27,14 @@ class AuditLoginSubscriber implements ShouldQueue
     public function __construct()
     {
         $this->attributes = [
-            'url'            => request()->fullUrl(),
-            'ip_address'     => request()->ip(),
-            'user_agent'     => request()->userAgent(),
+            'url' => request()->fullUrl(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
         ];
     }
 
     /**
      * Handle the event.
-     *
-     * @param  Login  $event
-     * @param  LoginEventContract  $contract
-     * @return void
      */
     public function handleLoginEventLog(Login $event, LoginEventContract $contract): void
     {
@@ -59,9 +63,6 @@ class AuditLoginSubscriber implements ShouldQueue
 
     /**
      * Register the listeners for the subscriber.
-     *
-     * @param  Dispatcher  $events
-     * @return array
      */
     public function subscribe(Dispatcher $events): array
     {
@@ -76,10 +77,6 @@ class AuditLoginSubscriber implements ShouldQueue
 
     /**
      * Handle a job failure.
-     *
-     * @param $event
-     * @param $exception
-     * @return void
      */
     public function failed($event, $exception): void
     {
