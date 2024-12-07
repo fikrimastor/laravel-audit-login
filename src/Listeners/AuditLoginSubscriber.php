@@ -18,14 +18,25 @@ use Illuminate\Events\Dispatcher;
 class AuditLoginSubscriber implements ShouldQueue
 {
     public array $attributes = [];
+//    protected $loginEventContract;
+//    protected $logoutEventContract;
+//    protected $failedLoginEventContract;
+//    protected $passwordResetEventContract;
+//    protected $registeredEventContract;
 
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(
+//        private readonly LoginEventContract $loginEventContract,
+//        private readonly LogoutEventContract $logoutEventContract,
+//        private readonly FailedLoginEventContract $failedLoginEventContract,
+//        private readonly PasswordResetEventContract $passwordResetEventContract,
+//        private readonly RegisteredEventContract $registeredEventContract
+    ) {
+
         $this->attributes = [
             'url' => request()->fullUrl(),
             'ip_address' => request()->ip(),
@@ -36,29 +47,29 @@ class AuditLoginSubscriber implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handleLoginEventLog(Login $event, LoginEventContract $contract): void
+    public function handleLoginEventLog(Login $event): void
     {
-        $contract->handle($event, $this->attributes);
+        $this->loginEventContract->handle($event, $this->attributes);
     }
 
-    public function handleFailedEventLog(Failed $event, FailedLoginEventContract $contract): void
+    public function handleFailedEventLog(Failed $event): void
     {
-        $contract->handle($event, $this->attributes);
+        $this->failedLoginEventContract->handle($event, $this->attributes);
     }
 
-    public function handlePasswordResetEventLog(PasswordReset $event, PasswordResetEventContract $contract): void
+    public function handlePasswordResetEventLog(PasswordReset $event): void
     {
-        $contract->handle($event, $this->attributes);
+        $this->passwordResetEventContract->handle($event, $this->attributes);
     }
 
-    public function handleRegisteredEventLog(Registered $event, RegisteredEventContract $contract): void
+    public function handleRegisteredEventLog(Registered $event): void
     {
-        $contract->handle($event, $this->attributes);
+        $this->registeredEventContract->handle($event, $this->attributes);
     }
 
-    public function handleLogoutEventLog(Logout $event, LogoutEventContract $contract): void
+    public function handleLogoutEventLog(Logout $event): void
     {
-        $contract->handle($event, $this->attributes);
+        $this->logoutEventContract->handle($event, $this->attributes);
     }
 
     /**

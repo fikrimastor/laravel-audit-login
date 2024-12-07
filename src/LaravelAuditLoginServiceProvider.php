@@ -3,7 +3,6 @@
 namespace FikriMastor\LaravelAuditLogin;
 
 use FikriMastor\LaravelAuditLogin\Commands\LaravelAuditLoginCommand;
-use FikriMastor\LaravelAuditLogin\Listeners\AuditLoginSubscriber;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
@@ -25,15 +24,52 @@ class LaravelAuditLoginServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigration('create_audit_logins_table')
             ->hasCommand(LaravelAuditLoginCommand::class);
-
-        $this->offerPublishing();
     }
 
     public function boot(): void
     {
         parent::boot();
 
-        Event::subscribe(AuditLoginSubscriber::class);
+        $this->app->bind(
+            \FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract::class,
+            \FikriMastor\LaravelAuditLogin\Actions\LoginEvent::class
+        );
+        $this->app->bind(
+            \FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract::class,
+            \FikriMastor\LaravelAuditLogin\Actions\LogoutEvent::class
+        );
+        $this->app->bind(
+            \FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract::class,
+            \FikriMastor\LaravelAuditLogin\Actions\FailedLoginEvent::class
+        );
+        $this->app->bind(
+            \FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract::class,
+            \FikriMastor\LaravelAuditLogin\Actions\PasswordResetEvent::class
+        );
+        $this->app->bind(
+            \FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract::class,
+            \FikriMastor\LaravelAuditLogin\Actions\RegisteredEvent::class
+        );
+
+        Event::listen(
+            \Illuminate\Auth\Events\Login::class,
+            \FikriMastor\LaravelAuditLogin\Listeners\LoginListener::class
+        );
+
+        Event::listen(
+            \Illuminate\Auth\Events\Logout::class,
+            \FikriMastor\LaravelAuditLogin\Listeners\LogoutListener::class
+        );
+
+        Event::listen(
+            \Illuminate\Auth\Events\Failed::class,
+            \FikriMastor\LaravelAuditLogin\Listeners\FailedListener::class
+        );
+
+        Event::listen(
+            \Illuminate\Auth\Events\Registered::class,
+            \FikriMastor\LaravelAuditLogin\Listeners\RegisteredListener::class
+        );
     }
 
     protected function offerPublishing(): void
