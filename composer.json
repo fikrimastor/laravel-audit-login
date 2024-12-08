@@ -1,6 +1,6 @@
 {
     "name": "fikrimastor/audit-login",
-    "description": " audit login is a another package for laravel framework. The purpose is to auditing login events",
+    "description": "Audit login is a another package for laravel framework. The purpose is to auditing login events",
     "keywords": [
         "Fikri Mastor",
         "laravel",
@@ -43,7 +43,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "FikriMastor\\LaravelAuditLogin\\Tests\\": "tests/",
+            "FikriMastor\\AuditLogin\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },

@@ -2,7 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Tests;
 
-use FikriMastor\AuditLogin\LaravelAuditLoginServiceProvider;
+use FikriMastor\AuditLogin\AuditLoginServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -13,14 +13,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'FikriMastor\\LaravelAuditLogin\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'FikriMastor\\AuditLogin\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            LaravelAuditLoginServiceProvider::class,
+            AuditLoginServiceProvider::class,
         ];
     }
 
