@@ -55,7 +55,7 @@ class AuditLogin
                 report($e);
             }
 
-return;
+            return;
         }
     }
 

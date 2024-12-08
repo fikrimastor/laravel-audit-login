@@ -8,13 +8,18 @@ use Illuminate\Http\Request;
 class AuditLoginAttribute
 {
     protected Request $request;
+
     public ?EventTypeEnum $eventType;
+
     public string $currentUrl;
+
     public string $ipAddress;
+
     public string $userAgent;
+
     public array $metadata = [];
 
-    public function __construct(Request $request, EventTypeEnum $eventType = null)
+    public function __construct(Request $request, ?EventTypeEnum $eventType = null)
     {
         $this->request = $request;
         $this->eventType = $eventType;
@@ -30,7 +35,7 @@ class AuditLoginAttribute
             'url' => $this->currentUrl,
             'ip_address' => $this->ipAddress,
             'user_agent' => $this->userAgent,
-            'metadata' => $this->metadata
+            'metadata' => $this->metadata,
         ];
     }
 
