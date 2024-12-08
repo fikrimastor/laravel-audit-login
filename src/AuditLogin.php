@@ -16,7 +16,7 @@ class AuditLogin
     {
         try {
             DB::transaction(static function () use ($attributes, $user) {
-                throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditableTrait trait.'));
+                throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
 
                 throw_if(! isset($attributes['event']), new BadRequestException('The event_type must not be empty.'));
 
