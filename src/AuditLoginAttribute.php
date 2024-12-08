@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 class AuditLoginAttribute
 {
     protected Request $request;
+
     public string $currentUrl;
+
     public string $ipAddress;
+
     public string $userAgent;
+
     public array $metadata = [];
 
     public function __construct(Request $request)
@@ -26,7 +30,7 @@ class AuditLoginAttribute
             'url' => $this->currentUrl,
             'ip_address' => $this->ipAddress,
             'user_agent' => $this->userAgent,
-            'metadata' => $this->metadata
+            'metadata' => $this->metadata,
         ];
     }
 }

@@ -2,19 +2,19 @@
 
 namespace FikriMastor\AuditLogin;
 
-use FikriMastor\AuditLogin\Actions\{AttemptingEvent,
-    AuthenticatedEvent,
-    CurrentDeviceLogoutEvent,
-    FailedLoginEvent,
-    LockoutEvent,
-    LoginEvent,
-    LogoutEvent,
-    OtherDeviceLogoutEvent,
-    PasswordResetEvent,
-    PasswordResetLinkSentEvent,
-    RegisteredEvent,
-    ValidatedEvent,
-    VerifiedEvent};
+use FikriMastor\AuditLogin\Actions\AttemptingEvent;
+use FikriMastor\AuditLogin\Actions\AuthenticatedEvent;
+use FikriMastor\AuditLogin\Actions\CurrentDeviceLogoutEvent;
+use FikriMastor\AuditLogin\Actions\FailedLoginEvent;
+use FikriMastor\AuditLogin\Actions\LockoutEvent;
+use FikriMastor\AuditLogin\Actions\LoginEvent;
+use FikriMastor\AuditLogin\Actions\LogoutEvent;
+use FikriMastor\AuditLogin\Actions\OtherDeviceLogoutEvent;
+use FikriMastor\AuditLogin\Actions\PasswordResetEvent;
+use FikriMastor\AuditLogin\Actions\PasswordResetLinkSentEvent;
+use FikriMastor\AuditLogin\Actions\RegisteredEvent;
+use FikriMastor\AuditLogin\Actions\ValidatedEvent;
+use FikriMastor\AuditLogin\Actions\VerifiedEvent;
 use FikriMastor\AuditLogin\Listeners\AuditLoginSubscriber;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;

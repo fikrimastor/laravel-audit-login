@@ -2,7 +2,6 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\AuditLogin\Actions\BaseEvent;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;

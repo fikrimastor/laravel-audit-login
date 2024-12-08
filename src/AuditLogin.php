@@ -2,19 +2,19 @@
 
 namespace FikriMastor\AuditLogin;
 
-use FikriMastor\AuditLogin\Contracts\{AttemptingEventContract,
-    AuthenticatedEventContract,
-    CurrentDeviceLogoutEventContract,
-    FailedLoginEventContract,
-    LockoutEventContract,
-    LoginEventContract,
-    LogoutEventContract,
-    OtherDeviceLogoutEventContract,
-    PasswordResetEventContract,
-    PasswordResetLinkSentEventContract,
-    RegisteredEventContract,
-    ValidatedEventContract,
-    VerifiedEventContract};
+use FikriMastor\AuditLogin\Contracts\AttemptingEventContract;
+use FikriMastor\AuditLogin\Contracts\AuthenticatedEventContract;
+use FikriMastor\AuditLogin\Contracts\CurrentDeviceLogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\AuditLogin\Contracts\LockoutEventContract;
+use FikriMastor\AuditLogin\Contracts\LoginEventContract;
+use FikriMastor\AuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\OtherDeviceLogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
+use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
+use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
 use FikriMastor\AuditLogin\Exceptions\BadRequestException;
 use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -55,9 +55,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record login event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLoginUsing(string|\Closure $callback): void
     {
@@ -66,9 +63,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLogoutUsing(string|\Closure $callback): void
     {
@@ -77,9 +71,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record forgot password event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordForgotPasswordUsing(string|\Closure $callback): void
     {
@@ -88,9 +79,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record failed login event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordFailedLoginUsing(string|\Closure $callback): void
     {
@@ -99,9 +87,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record registered event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordRegisteredUsing(string|\Closure $callback): void
     {
@@ -110,9 +95,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Attempting event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordAttemptingUsing(string|\Closure $callback): void
     {
@@ -121,9 +103,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Authenticated event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordAuthenticatedUsing(string|\Closure $callback): void
     {
@@ -132,9 +111,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Current Device Logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordCurrentDeviceLogoutUsing(string|\Closure $callback): void
     {
@@ -143,9 +119,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Lockout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLockoutUsing(string|\Closure $callback): void
     {
@@ -154,9 +127,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Other Device Logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordOtherDeviceLogoutUsing(string|\Closure $callback): void
     {
@@ -165,9 +135,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Password Reset Link event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordPasswordResetLinkSentUsing(string|\Closure $callback): void
     {
@@ -176,9 +143,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Validated event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordValidatedUsing(string|\Closure $callback): void
     {
@@ -187,9 +151,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Verified event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordVerifiedUsing(string|\Closure $callback): void
     {

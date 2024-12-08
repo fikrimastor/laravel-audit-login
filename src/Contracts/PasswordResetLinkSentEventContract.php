@@ -2,7 +2,4 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-interface PasswordResetLinkSentEventContract extends BaseEventContract
-{
-
-}
+interface PasswordResetLinkSentEventContract extends BaseEventContract {}
