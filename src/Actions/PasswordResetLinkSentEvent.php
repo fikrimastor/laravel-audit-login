@@ -3,14 +3,14 @@
 namespace FikriMastor\AuditLogin\Actions;
 
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
 
-class RegisteredEvent extends BaseEvent implements RegisteredEventContract
+class PasswordResetLinkSentEvent extends BaseEvent implements PasswordResetLinkSentEventContract
 {
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
-        $this->event = $event;
         $this->attributes = $attributes;
+        $this->event = $event;
         $this->execute();
     }
 }

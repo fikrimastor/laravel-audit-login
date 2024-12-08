@@ -3,9 +3,9 @@
 namespace FikriMastor\AuditLogin\Actions;
 
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\AuditLogin\Contracts\CurrentDeviceLogoutEventContract;
 
-class RegisteredEvent extends BaseEvent implements RegisteredEventContract
+class CurrentDeviceLogoutEvent extends BaseEvent implements CurrentDeviceLogoutEventContract
 {
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {

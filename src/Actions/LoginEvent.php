@@ -2,18 +2,15 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
+use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Contracts\LoginEventContract;
-use FikriMastor\AuditLogin\Enums\EventTypeEnum;
-use Illuminate\Auth\Events\Login;
 
 class LoginEvent extends BaseEvent implements LoginEventContract
 {
-    protected EventTypeEnum $eventType = EventTypeEnum::LOGIN;
-
-    public function handle(Login $event, array $attributes): void
+    public function handle(object $event, AuditLoginAttribute $attributes): void
     {
+        $this->event = $event;
         $this->attributes = $attributes;
-        $this->user = $event->user;
         $this->execute();
     }
 }

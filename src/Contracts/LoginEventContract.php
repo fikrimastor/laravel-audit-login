@@ -2,9 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-use Illuminate\Auth\Events\Login;
-
-interface LoginEventContract
+interface LoginEventContract extends BaseEventContract
 {
-    public function handle(Login $event, array $attributes): void;
+    //
 }

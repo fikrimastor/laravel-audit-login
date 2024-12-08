@@ -2,12 +2,19 @@
 
 namespace FikriMastor\AuditLogin;
 
+use FikriMastor\AuditLogin\Actions\AttemptingEvent;
+use FikriMastor\AuditLogin\Actions\AuthenticatedEvent;
+use FikriMastor\AuditLogin\Actions\CurrentDeviceLogoutEvent;
 use FikriMastor\AuditLogin\Actions\FailedLoginEvent;
+use FikriMastor\AuditLogin\Actions\LockoutEvent;
 use FikriMastor\AuditLogin\Actions\LoginEvent;
 use FikriMastor\AuditLogin\Actions\LogoutEvent;
+use FikriMastor\AuditLogin\Actions\OtherDeviceLogoutEvent;
 use FikriMastor\AuditLogin\Actions\PasswordResetEvent;
+use FikriMastor\AuditLogin\Actions\PasswordResetLinkSentEvent;
 use FikriMastor\AuditLogin\Actions\RegisteredEvent;
-use FikriMastor\AuditLogin\Facades\AuditLogin;
+use FikriMastor\AuditLogin\Actions\ValidatedEvent;
+use FikriMastor\AuditLogin\Actions\VerifiedEvent;
 use FikriMastor\AuditLogin\Listeners\AuditLoginSubscriber;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
@@ -38,7 +45,15 @@ class AuditLoginServiceProvider extends PackageServiceProvider
         AuditLogin::recordFailedLoginUsing(FailedLoginEvent::class);
         AuditLogin::recordLogoutUsing(LogoutEvent::class);
         AuditLogin::recordForgotPasswordUsing(PasswordResetEvent::class);
+        AuditLogin::recordAttemptingUsing(AttemptingEvent::class);
+        AuditLogin::recordAuthenticatedUsing(AuthenticatedEvent::class);
+        AuditLogin::recordCurrentDeviceLogoutUsing(CurrentDeviceLogoutEvent::class);
+        AuditLogin::recordLockoutUsing(LockoutEvent::class);
+        AuditLogin::recordOtherDeviceLogoutUsing(OtherDeviceLogoutEvent::class);
+        AuditLogin::recordPasswordResetLinkSentUsing(PasswordResetLinkSentEvent::class);
+        AuditLogin::recordValidatedUsing(ValidatedEvent::class);
+        AuditLogin::recordVerifiedUsing(VerifiedEvent::class);
 
-        Event::subscribe(AuditLoginSubscriber::class);
+        Event::subscribe(config('audit-login.subscriber', AuditLoginSubscriber::class));
     }
 }

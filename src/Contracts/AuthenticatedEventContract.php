@@ -2,7 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-interface RegisteredEventContract extends BaseEventContract
+interface AuthenticatedEventContract extends BaseEventContract
 {
     //
 }

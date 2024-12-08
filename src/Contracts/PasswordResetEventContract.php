@@ -2,9 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-use Illuminate\Auth\Events\PasswordReset;
-
-interface PasswordResetEventContract
+interface PasswordResetEventContract extends BaseEventContract
 {
-    public function handle(PasswordReset $event, array $attributes): void;
+    //
 }
