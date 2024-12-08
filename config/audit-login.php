@@ -1,6 +1,6 @@
 <?php
 
-// config for FikriMastor/LaravelAuditLogin
+// config for FikriMastor/AuditLogin
 return [
     'drivers' => [
         'database' => [
