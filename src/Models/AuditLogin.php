@@ -17,8 +17,7 @@ class AuditLogin extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'old_values' => 'json',
-        'new_values' => 'json',
+        'metadata' => 'json',
         'event' => EventTypeEnum::class,
     ];
 
