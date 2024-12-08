@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Contracts\PasswordResetEventContract;
 
 class PasswordResetEvent extends BaseEvent implements PasswordResetEventContract
 {
-
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
         $this->event = $event;

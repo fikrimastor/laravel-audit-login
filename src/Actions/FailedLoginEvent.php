@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Contracts\FailedLoginEventContract;
 
 class FailedLoginEvent extends BaseEvent implements FailedLoginEventContract
 {
-
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
         $this->event = $event;

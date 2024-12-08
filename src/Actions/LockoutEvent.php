@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Contracts\LockoutEventContract;
 
 class LockoutEvent extends BaseEvent implements LockoutEventContract
 {
-
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
         $this->event = $event;

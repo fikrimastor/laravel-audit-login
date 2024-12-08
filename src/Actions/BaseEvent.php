@@ -4,7 +4,6 @@ namespace FikriMastor\AuditLogin\Actions;
 
 use FikriMastor\AuditLogin\AuditLogin;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 abstract class BaseEvent

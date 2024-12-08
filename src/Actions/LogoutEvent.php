@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Contracts\LogoutEventContract;
 
 class LogoutEvent extends BaseEvent implements LogoutEventContract
 {
-
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
         $this->event = $event;

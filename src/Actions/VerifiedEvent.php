@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
 
 class VerifiedEvent extends BaseEvent implements VerifiedEventContract
 {
-
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
         $this->event = $event;

@@ -53,7 +53,9 @@ class AuditLogin
                 });
             } catch (\Throwable $e) {
                 report($e);
-            }return;
+            }
+
+return;
         }
     }
 

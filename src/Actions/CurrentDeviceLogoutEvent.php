@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Contracts\CurrentDeviceLogoutEventContract;
 
 class CurrentDeviceLogoutEvent extends BaseEvent implements CurrentDeviceLogoutEventContract
 {
-
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
         $this->event = $event;
