@@ -7,7 +7,6 @@ use FikriMastor\AuditLogin\Actions\LoginEvent;
 use FikriMastor\AuditLogin\Actions\LogoutEvent;
 use FikriMastor\AuditLogin\Actions\PasswordResetEvent;
 use FikriMastor\AuditLogin\Actions\RegisteredEvent;
-use FikriMastor\AuditLogin\Commands\AuditLoginCommand;
 use FikriMastor\AuditLogin\Facades\AuditLogin;
 use FikriMastor\AuditLogin\Listeners\AuditLoginSubscriber;
 use Illuminate\Support\Facades\Event;
