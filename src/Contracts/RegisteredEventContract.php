@@ -2,9 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-use Illuminate\Auth\Events\Registered;
-
-interface RegisteredEventContract
+interface RegisteredEventContract extends BaseEventContract
 {
-    public function handle(Registered $event, array $attributes): void;
+    //
 }

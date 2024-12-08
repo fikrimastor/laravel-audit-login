@@ -2,13 +2,14 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
+use FikriMastor\AuditLogin\Actions\BaseEvent;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Contracts\LoginEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 
-class LoginEvent extends BaseEvent implements LoginEventContract
+class PasswordResetLinkSentEvent extends BaseEvent implements PasswordResetLinkSentEventContract
 {
-    protected EventTypeEnum $eventType = EventTypeEnum::LOGIN;
+    protected EventTypeEnum $eventType = EventTypeEnum::PASSWORD_RESET_LINK_SENT;
 
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {

@@ -2,18 +2,18 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
+use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
-use Illuminate\Auth\Events\Registered;
 
 class RegisteredEvent extends BaseEvent implements RegisteredEventContract
 {
     protected EventTypeEnum $eventType = EventTypeEnum::REGISTER;
 
-    public function handle(Registered $event, array $attributes): void
+    public function handle(object $event, AuditLoginAttribute $attributes): void
     {
-        $this->attributes = $attributes;
-        $this->user = $event->user;
+        $this->attributes = $attributes->toArray();
+        $this->event = $event;
         $this->execute();
     }
 }

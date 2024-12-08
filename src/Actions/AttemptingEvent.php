@@ -2,13 +2,14 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
+use FikriMastor\AuditLogin\Actions\BaseEvent;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Contracts\LoginEventContract;
+use FikriMastor\AuditLogin\Contracts\AttemptingEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 
-class LoginEvent extends BaseEvent implements LoginEventContract
+class AttemptingEvent extends BaseEvent implements AttemptingEventContract
 {
-    protected EventTypeEnum $eventType = EventTypeEnum::LOGIN;
+    protected EventTypeEnum $eventType = EventTypeEnum::ATTEMPTING;
 
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {

@@ -2,9 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-use Illuminate\Auth\Events\Failed;
-
-interface FailedLoginEventContract
+interface FailedLoginEventContract extends BaseEventContract
 {
-    public function handle(Failed $event, array $attributes): void;
+    //
 }

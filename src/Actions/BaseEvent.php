@@ -14,12 +14,14 @@ abstract class BaseEvent
 
     protected ?Authenticatable $user = null;
 
+    protected object $event;
+
     /**
      * Execute the audit action.
      */
     protected function execute(): void
     {
         $this->attributes['event'] = $this->eventType;
-        AuditLogin::auditEvent($this->attributes, $this->user);
+        AuditLogin::auditEvent($this->attributes, $this->event);
     }
 }
