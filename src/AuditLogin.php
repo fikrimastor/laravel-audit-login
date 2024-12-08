@@ -36,7 +36,7 @@ class AuditLogin
                     $attributes = $attributes->toArray();
 
                     if (! $user instanceof Authenticatable) {
-                        $morphPrefix = config('audit-login.user.morph-prefix', 'user');
+                        $morphPrefix = config('audit-login.user.morph-prefix');
 
                         $dataMissing = [
                             $morphPrefix.'_id' => null,
