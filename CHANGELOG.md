@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `laravel-audit-login` will be documented in this file.
+All notable changes to `audit-login` will be documented in this file.
 
 ## v1.0.1 - 2024-12-08
 
