@@ -1,6 +1,6 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Exceptions;
+namespace FikriMastor\AuditLogin\Exceptions;
 
 use Exception;
 

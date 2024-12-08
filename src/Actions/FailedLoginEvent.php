@@ -1,9 +1,9 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Actions;
+namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Auth\Events\Failed;
 
 class FailedLoginEvent extends BaseEvent implements FailedLoginEventContract

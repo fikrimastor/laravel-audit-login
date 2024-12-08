@@ -1,9 +1,9 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Actions;
+namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Auth\Events\PasswordReset;
 
 class PasswordResetEvent extends BaseEvent implements PasswordResetEventContract

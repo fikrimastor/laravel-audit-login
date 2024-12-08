@@ -1,8 +1,8 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Tests;
+namespace FikriMastor\AuditLogin\Tests;
 
-use FikriMastor\LaravelAuditLogin\LaravelAuditLoginServiceProvider;
+use FikriMastor\AuditLogin\LaravelAuditLoginServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 

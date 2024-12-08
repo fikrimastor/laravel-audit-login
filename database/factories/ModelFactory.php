@@ -1,6 +1,6 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Database\Factories;
+namespace FikriMastor\AuditLogin\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

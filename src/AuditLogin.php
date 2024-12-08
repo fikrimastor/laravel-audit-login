@@ -1,13 +1,13 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin;
+namespace FikriMastor\AuditLogin;
 
-use FikriMastor\LaravelAuditLogin\Exceptions\BadRequestException;
-use FikriMastor\LaravelAuditLogin\Models\AuditLogin;
+use FikriMastor\AuditLogin\Exceptions\BadRequestException;
+use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
 
-class LaravelAuditLogin
+class AuditLogin
 {
     /**
      * Audit an event.
@@ -28,7 +28,7 @@ class LaravelAuditLogin
                         $morphPrefix.'_type' => $morphPrefix,
                     ];
 
-                    return AuditLogin::create(array_merge($attributes, $dataMissing));
+                    return AuditLoginModel::create(array_merge($attributes, $dataMissing));
                 }
 
                 // Create an audit entry with a custom event (e.g., login, logout)
@@ -44,7 +44,7 @@ class LaravelAuditLogin
      */
     public static function recordLoginUsing(string $callback): void
     {
-        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract::class, $callback);
+        app()->bind(\FikriMastor\AuditLogin\Contracts\LoginEventContract::class, $callback);
     }
 
     /**
@@ -52,7 +52,7 @@ class LaravelAuditLogin
      */
     public static function recordLogoutUsing(string $callback): void
     {
-        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract::class, $callback);
+        app()->bind(\FikriMastor\AuditLogin\Contracts\LogoutEventContract::class, $callback);
     }
 
     /**
@@ -60,7 +60,7 @@ class LaravelAuditLogin
      */
     public static function recordForgotPasswordUsing(string $callback): void
     {
-        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract::class, $callback);
+        app()->bind(\FikriMastor\AuditLogin\Contracts\PasswordResetEventContract::class, $callback);
     }
 
     /**
@@ -68,7 +68,7 @@ class LaravelAuditLogin
      */
     public static function recordFailedLoginUsing(string $callback): void
     {
-        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract::class, $callback);
+        app()->bind(\FikriMastor\AuditLogin\Contracts\FailedLoginEventContract::class, $callback);
     }
 
     /**
@@ -76,6 +76,6 @@ class LaravelAuditLogin
      */
     public static function recordRegisteredUsing(string $callback): void
     {
-        app()->bind(\FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract::class, $callback);
+        app()->bind(\FikriMastor\AuditLogin\Contracts\RegisteredEventContract::class, $callback);
     }
 }

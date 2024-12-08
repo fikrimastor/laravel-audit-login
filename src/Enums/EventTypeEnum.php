@@ -1,6 +1,6 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Enums;
+namespace FikriMastor\AuditLogin\Enums;
 
 enum EventTypeEnum: string
 {

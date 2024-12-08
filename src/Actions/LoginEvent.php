@@ -1,9 +1,9 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Actions;
+namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Contracts\LoginEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Auth\Events\Login;
 
 class LoginEvent extends BaseEvent implements LoginEventContract

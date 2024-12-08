@@ -1,6 +1,6 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Contracts;
+namespace FikriMastor\AuditLogin\Contracts;
 
 use Illuminate\Auth\Events\Logout;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Traits;
+namespace FikriMastor\AuditLogin\Traits;
 
-use FikriMastor\LaravelAuditLogin\Models\AuditLogin as AuditLoginModel;
+use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait AuditableTrait

@@ -1,9 +1,9 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Actions;
+namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Auth\Events\Logout;
 
 class LogoutEvent extends BaseEvent implements LogoutEventContract

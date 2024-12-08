@@ -1,12 +1,12 @@
 {
-    "name": "fikrimastor/laravel-audit-login",
-    "description": "Laravel audit login is a another package for laravel framework. The purpose is to auditing login events",
+    "name": "fikrimastor/audit-login",
+    "description": " audit login is a another package for laravel framework. The purpose is to auditing login events",
     "keywords": [
         "Fikri Mastor",
         "laravel",
-        "laravel-audit-login"
+        "audit-login"
     ],
-    "homepage": "https://github.com/fikrimastor/laravel-audit-login",
+    "homepage": "https://github.com/fikrimastor/audit-login",
     "license": "MIT",
     "authors": [
         {
@@ -37,8 +37,8 @@
     },
     "autoload": {
         "psr-4": {
-            "FikriMastor\\LaravelAuditLogin\\": "src/",
-            "FikriMastor\\LaravelAuditLogin\\Database\\Factories\\": "database/factories/"
+            "FikriMastor\\AuditLogin\\": "src/",
+            "FikriMastor\\AuditLogin\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
@@ -65,10 +65,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "FikriMastor\\LaravelAuditLogin\\LaravelAuditLoginServiceProvider"
+                "FikriMastor\\AuditLogin\\AuditLoginServiceProvider"
             ],
             "aliases": {
-                "LaravelAuditLogin": "FikriMastor\\LaravelAuditLogin\\Facades\\LaravelAuditLogin"
+                "AuditLogin": "FikriMastor\\AuditLogin\\Facades\\AuditLogin"
             }
         }
     },

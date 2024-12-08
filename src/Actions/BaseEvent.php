@@ -1,9 +1,9 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Actions;
+namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
-use FikriMastor\LaravelAuditLogin\LaravelAuditLogin;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\LaravelAuditLogin;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 abstract class BaseEvent

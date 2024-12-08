@@ -1,8 +1,8 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Models;
+namespace FikriMastor\AuditLogin\Models;
 
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Actions;
+namespace FikriMastor\AuditLogin\Actions;
 
-use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
-use FikriMastor\LaravelAuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Auth\Events\Registered;
 
 class RegisteredEvent extends BaseEvent implements RegisteredEventContract

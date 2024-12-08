@@ -1,12 +1,12 @@
 <?php
 
-namespace FikriMastor\LaravelAuditLogin\Listeners;
+namespace FikriMastor\AuditLogin\Listeners;
 
-use FikriMastor\LaravelAuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LoginEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\LaravelAuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\AuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\AuditLogin\Contracts\LoginEventContract;
+use FikriMastor\AuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
