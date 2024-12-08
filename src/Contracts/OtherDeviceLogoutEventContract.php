@@ -2,4 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-interface OtherDeviceLogoutEventContract extends BaseEventContract {}
+interface OtherDeviceLogoutEventContract extends BaseEventContract
+{
+    //
+}

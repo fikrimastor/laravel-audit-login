@@ -2,4 +2,7 @@
 
 namespace FikriMastor\AuditLogin\Contracts;
 
-interface AttemptingEventContract extends BaseEventContract {}
+interface AttemptingEventContract extends BaseEventContract
+{
+    //
+}
