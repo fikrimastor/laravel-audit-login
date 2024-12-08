@@ -2,67 +2,68 @@
 
 // config for FikriMastor/AuditLogin
 return [
+    'enabled' => env('AUDIT_LOGIN_ENABLED', true),
     'drivers' => [
         'database' => [
-            'table' => 'audit_logins',
-            'connection' => 'mysql',
+            'table' => env('AUDIT_LOGIN_DATABASE_TABLE', 'audit-logins'),
+            'connection' => env('AUDIT_LOGIN_DATABASE_CONNECTION', 'mysql'),
         ],
     ],
     'user' => [
-        'morph_prefix' => 'login_auditable',
+        'morph-prefix' => env('AUDIT_LOGIN_USER_PREFIX', 'login_auditable'),
     ],
     'events' => [
         'registered' => [
-            'enabled' => true,
-            'class' => \Illuminate\Auth\Events\Registered::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_REGISTERED', true),
+            'class' =>  \Illuminate\Auth\Events\Registered::class,
         ],
         'login' => [
-            'enabled' => true,
-            'class' => \Illuminate\Auth\Events\Login::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_LOGIN', true),
+            'class' =>  \Illuminate\Auth\Events\Login::class,
         ],
-        'failed_login' => [
-            'enabled' => true,
-            'class' => \Illuminate\Auth\Events\Failed::class,
+        'failed-login' => [
+            'enabled' => env('AUDIT_LOGIN_EVENT_FAILED_LOGIN', true),
+            'class' =>  \Illuminate\Auth\Events\Failed::class,
         ],
         'logout' => [
-            'enabled' => true,
-            'class' => \Illuminate\Auth\Events\Logout::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_LOGOUT', true),
+            'class' =>  \Illuminate\Auth\Events\Logout::class,
         ],
-        'password_reset' => [
-            'enabled' => true,
-            'class' => \Illuminate\Auth\Events\PasswordReset::class,
+        'password-reset' => [
+            'enabled' => env('AUDIT_LOGIN_EVENT_PASSWORD_RESET', false),
+            'class' =>  \Illuminate\Auth\Events\PasswordReset::class,
         ],
         'attempting' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\Attempting::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_ATTEMPTING', false),
+            'class' =>  \Illuminate\Auth\Events\Attempting::class,
         ],
         'authenticated' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\Authenticated::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_AUTHENTICATED', false),
+            'class' =>  \Illuminate\Auth\Events\Authenticated::class,
         ],
-        'current_device_logout' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\CurrentDeviceLogout::class,
+        'current-device-logout' => [
+            'enabled' => env('AUDIT_LOGIN_EVENT_CURRENT_DEVICE_LOGOUT', false),
+            'class' =>  \Illuminate\Auth\Events\CurrentDeviceLogout::class,
         ],
         'lockout' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\Lockout::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_LOCKOUT', false),
+            'class' =>  \Illuminate\Auth\Events\Lockout::class,
         ],
-        'other_device_logout' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\OtherDeviceLogout::class,
+        'other-device-logout' => [
+            'enabled' => env('AUDIT_LOGIN_EVENT_OTHER_DEVICE_LOGOUT', false),
+            'class' =>  \Illuminate\Auth\Events\OtherDeviceLogout::class,
         ],
-        'password_reset_link_sent' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\PasswordResetLinkSent::class,
+        'password-reset-link-sent' => [
+            'enabled' => env('AUDIT_LOGIN_EVENT_PASSWORD_RESET_LINK_SENT', false),
+            'class' =>  \Illuminate\Auth\Events\PasswordResetLinkSent::class,
         ],
         'validated' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\Validated::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_VALIDATED', false),
+            'class' =>  \Illuminate\Auth\Events\Validated::class,
         ],
         'verified' => [
-            'enabled' => false,
-            'class' => \Illuminate\Auth\Events\Verified::class,
+            'enabled' => env('AUDIT_LOGIN_EVENT_VERIFIED', false),
+            'class' =>  \Illuminate\Auth\Events\Verified::class,
         ],
     ],
     'subscriber' => \FikriMastor\AuditLogin\Listeners\AuditLoginSubscriber::class,

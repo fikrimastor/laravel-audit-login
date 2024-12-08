@@ -25,31 +25,35 @@ class AuditLogin
     /**
      * Audit an event.
      */
-    public static function auditEvent(array $attributes, object $event): void
+    public static function auditEvent(object $event, AuditLoginAttribute $attributes): void
     {
-        try {
-            DB::transaction(static function () use ($attributes, $event) {
-                $user = $event->user ?? null;
-                throw_if(! isset($attributes['event']), new BadRequestException('The event_type must not be empty.'));
+        if (config('audit-login.enabled') === true) {
+            try {
+                throw_if(is_null($attributes->eventType), new BadRequestException('The event type must not be empty.'));
 
-                if (! $user instanceof Authenticatable) {
-                    $morphPrefix = config('audit-login.user.morph_prefix', 'user');
+                DB::transaction(static function () use ($event, $attributes) {
+                    $user = $event->user ?? null;
+                    $attributes = $attributes->toArray();
 
-                    $dataMissing = [
-                        $morphPrefix.'_id' => null,
-                        $morphPrefix.'_type' => $morphPrefix,
-                    ];
+                    if (! $user instanceof Authenticatable) {
+                        $morphPrefix = config('audit-login.user.morph-prefix', 'user');
 
-                    return AuditLoginModel::create(array_merge($attributes, $dataMissing));
-                }
+                        $dataMissing = [
+                            $morphPrefix.'_id' => null,
+                            $morphPrefix.'_type' => $morphPrefix,
+                        ];
 
-                throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
+                        return AuditLoginModel::create(array_merge($attributes, $dataMissing));
+                    }
 
-                // Create an audit entry with a custom event (e.g., login, logout)
-                return $user->auditLogin()->create($attributes);
-            });
-        } catch (\Throwable $e) {
-            report($e);
+                    throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
+
+                    // Create an audit entry with a custom event (e.g., login, logout)
+                    return $user->auditLogin()->create($attributes);
+                });
+            } catch (\Throwable $e) {
+                report($e);
+            }return;
         }
     }
 

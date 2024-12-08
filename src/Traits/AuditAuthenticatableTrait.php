@@ -9,6 +9,6 @@ trait AuditAuthenticatableTrait
 {
     public function auditLogin(): MorphMany
     {
-        return $this->morphMany(AuditLoginModel::class, config('audit-login.user.morph_prefix', 'login_auditable'));
+        return $this->morphMany(AuditLoginModel::class, config('audit-login.user.morph-prefix', 'login_auditable'));
     }
 }

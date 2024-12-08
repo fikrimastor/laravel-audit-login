@@ -18,7 +18,7 @@ return new class extends Migration
     public function up()
     {
         Schema::connection($this->databaseConnection)->create($this->tableName, function (Blueprint $table) {
-            $morphPrefix = config('audit-login.user.morph_prefix', 'user');
+            $morphPrefix = config('audit-login.user.morph-prefix', 'user');
 
             $table->id();
             $table->unsignedBigInteger($morphPrefix . '_id')->nullable();

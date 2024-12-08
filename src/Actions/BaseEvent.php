@@ -3,14 +3,13 @@
 namespace FikriMastor\AuditLogin\Actions;
 
 use FikriMastor\AuditLogin\AuditLogin;
+use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 abstract class BaseEvent
 {
-    protected EventTypeEnum $eventType;
-
-    protected array $attributes = [];
+    protected AuditLoginAttribute $attributes;
 
     protected ?Authenticatable $user = null;
 
@@ -21,7 +20,6 @@ abstract class BaseEvent
      */
     protected function execute(): void
     {
-        $this->attributes['event'] = $this->eventType;
-        AuditLogin::auditEvent($this->attributes, $this->event);
+        AuditLogin::auditEvent($this->event, $this->attributes);
     }
 }

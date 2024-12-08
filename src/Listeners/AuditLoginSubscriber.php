@@ -3,32 +3,33 @@
 namespace FikriMastor\AuditLogin\Listeners;
 
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Contracts\AttemptingEventContract;
-use FikriMastor\AuditLogin\Contracts\AuthenticatedEventContract;
-use FikriMastor\AuditLogin\Contracts\CurrentDeviceLogoutEventContract;
-use FikriMastor\AuditLogin\Contracts\FailedLoginEventContract;
-use FikriMastor\AuditLogin\Contracts\LockoutEventContract;
-use FikriMastor\AuditLogin\Contracts\LoginEventContract;
-use FikriMastor\AuditLogin\Contracts\LogoutEventContract;
-use FikriMastor\AuditLogin\Contracts\OtherDeviceLogoutEventContract;
-use FikriMastor\AuditLogin\Contracts\PasswordResetEventContract;
-use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
-use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
-use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
-use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
-use Illuminate\Auth\Events\Attempting;
-use Illuminate\Auth\Events\Authenticated;
-use Illuminate\Auth\Events\CurrentDeviceLogout;
-use Illuminate\Auth\Events\Failed;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\OtherDeviceLogout;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Events\PasswordResetLinkSent;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Auth\Events\Verified;
+use FikriMastor\AuditLogin\Contracts\{AttemptingEventContract,
+    AuthenticatedEventContract,
+    CurrentDeviceLogoutEventContract,
+    FailedLoginEventContract,
+    LockoutEventContract,
+    LoginEventContract,
+    LogoutEventContract,
+    OtherDeviceLogoutEventContract,
+    PasswordResetEventContract,
+    PasswordResetLinkSentEventContract,
+    RegisteredEventContract,
+    ValidatedEventContract,
+    VerifiedEventContract};
+use Illuminate\Auth\Events\{Attempting,
+    Authenticated,
+    CurrentDeviceLogout,
+    Failed,
+    Lockout,
+    Login,
+    Logout,
+    OtherDeviceLogout,
+    PasswordReset,
+    PasswordResetLinkSent,
+    Registered,
+    Validated,
+    Verified};
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 
@@ -57,6 +58,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::LOGIN);
+
         resolve(LoginEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -67,9 +70,11 @@ class AuditLoginSubscriber
      */
     public function handleFailedEventLog(object $event): void
     {
-        if (config('audit-login.events.failed_login.enabled', true) === false) {
+        if (config('audit-login.events.failed-login.enabled', true) === false) {
             return;
         }
+
+        $this->auditLoginAttribute->eventType(EventTypeEnum::FAILED_LOGIN);
 
         resolve(FailedLoginEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
@@ -81,9 +86,11 @@ class AuditLoginSubscriber
      */
     public function handlePasswordResetEventLog(object $event): void
     {
-        if (config('audit-login.events.password_reset.enabled', true) === false) {
+        if (config('audit-login.events.password-reset.enabled', true) === false) {
             return;
         }
+
+        $this->auditLoginAttribute->eventType(EventTypeEnum::RESET_PASSWORD);
 
         resolve(PasswordResetEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
@@ -99,6 +106,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::REGISTER);
+
         resolve(RegisteredEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -112,6 +121,8 @@ class AuditLoginSubscriber
         if (config('audit-login.events.logout.enabled', true) === false) {
             return;
         }
+
+        $this->auditLoginAttribute->eventType(EventTypeEnum::LOGOUT);
 
         resolve(LogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
@@ -127,6 +138,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::ATTEMPTING);
+
         resolve(AttemptingEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -141,6 +154,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::AUTHENTICATED);
+
         resolve(AuthenticatedEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -151,9 +166,11 @@ class AuditLoginSubscriber
      */
     public function handleCurrentDeviceLogoutEventLog(object $event): void
     {
-        if (config('audit-login.events.current_device_logout.enabled', true) === false) {
+        if (config('audit-login.events.current-device-logout.enabled', true) === false) {
             return;
         }
+
+        $this->auditLoginAttribute->eventType(EventTypeEnum::CURRENT_DEVICE_LOGOUT);
 
         resolve(CurrentDeviceLogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
@@ -169,6 +186,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::LOCKOUT);
+
         resolve(LockoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -179,9 +198,11 @@ class AuditLoginSubscriber
      */
     public function handleOtherDeviceLogoutEventLog(object $event): void
     {
-        if (config('audit-login.events.other_device_logout.enabled', true) === false) {
+        if (config('audit-login.events.other-device-logout.enabled', true) === false) {
             return;
         }
+
+        $this->auditLoginAttribute->eventType(EventTypeEnum::OTHER_DEVICE_LOGOUT);
 
         resolve(OtherDeviceLogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
@@ -193,9 +214,11 @@ class AuditLoginSubscriber
      */
     public function handlePasswordResetLinkSentEventLog(object $event): void
     {
-        if (config('audit-login.events.password_reset_link_sent.enabled', true) === false) {
+        if (config('audit-login.events.password-reset-link-sent.enabled', true) === false) {
             return;
         }
+
+        $this->auditLoginAttribute->eventType(EventTypeEnum::PASSWORD_RESET_LINK_SENT);
 
         resolve(PasswordResetLinkSentEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
@@ -211,6 +234,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::VALIDATED);
+
         resolve(ValidatedEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -225,6 +250,8 @@ class AuditLoginSubscriber
             return;
         }
 
+        $this->auditLoginAttribute->eventType(EventTypeEnum::VERIFIED);
+
         resolve(VerifiedEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
@@ -236,15 +263,15 @@ class AuditLoginSubscriber
         return [
             config('audit-login.events.login.class', Login::class) => 'handleLoginEventLog',
             config('audit-login.events.logout.class', Logout::class) => 'handleLogoutEventLog',
-            config('audit-login.events.password_reset.class', PasswordReset::class) => 'handlePasswordResetEventLog',
-            config('audit-login.events.failed_login.class', Failed::class) => 'handleFailedEventLog',
+            config('audit-login.events.password-reset.class', PasswordReset::class) => 'handlePasswordResetEventLog',
+            config('audit-login.events.failed-login.class', Failed::class) => 'handleFailedEventLog',
             config('audit-login.events.registered.class', Registered::class) => 'handleRegisteredEventLog',
             config('audit-login.events.attempting.class', Attempting::class) => 'handleAttemptingEventLog',
             config('audit-login.events.authenticated.class', Authenticated::class) => 'handleAuthenticatedEventLog',
-            config('audit-login.events.current_device_logout.class', CurrentDeviceLogout::class) => 'handleCurrentDeviceLogoutEventLog',
+            config('audit-login.events.current-device-logout.class', CurrentDeviceLogout::class) => 'handleCurrentDeviceLogoutEventLog',
             config('audit-login.events.lockout.class', Lockout::class) => 'handleLockoutEventLog',
-            config('audit-login.events.other_device_logout.class', OtherDeviceLogout::class) => 'handleOtherDeviceLogoutEventLog',
-            config('audit-login.events.password_reset_link_sent.class', PasswordResetLinkSent::class) => 'handlePasswordResetLinkSentEventLog',
+            config('audit-login.events.other-device-logout.class', OtherDeviceLogout::class) => 'handleOtherDeviceLogoutEventLog',
+            config('audit-login.events.password-reset-link-sent.class', PasswordResetLinkSent::class) => 'handlePasswordResetLinkSentEventLog',
             config('audit-login.events.validated.class', Validated::class) => 'handleValidatedEventLog',
             config('audit-login.events.verified.class', Verified::class) => 'handleVerifiedEventLog',
         ];

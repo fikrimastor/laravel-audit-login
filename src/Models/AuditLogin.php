@@ -27,7 +27,7 @@ class AuditLogin extends Model
      */
     public function auditable(): MorphTo
     {
-        $morphPrefix = config('audit-login.user.morph_prefix', 'login_auditable');
+        $morphPrefix = config('audit-login.user.morph-prefix', 'login_auditable');
 
         return $this->morphTo(__FUNCTION__, $morphPrefix.'_type', $morphPrefix.'_id');
     }
