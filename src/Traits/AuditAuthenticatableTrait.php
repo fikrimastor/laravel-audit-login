@@ -5,7 +5,7 @@ namespace FikriMastor\AuditLogin\Traits;
 use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait AuditableTrait
+trait AuditAuthenticatableTrait
 {
     public function auditLogin(): MorphMany
     {
