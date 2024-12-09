@@ -10,8 +10,6 @@ trait AuditAuthenticatableTrait
 {
     /**
      * Get the audit login relationship.
-     *
-     * @return MorphMany
      */
     public function loginLogs(): MorphMany
     {
@@ -20,41 +18,33 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login at attribute.
-     *
-     * @return Attribute
      */
     public function lastLoginAt(): Attribute
     {
-        return Attribute::get(get: fn() => $this->auditLogin()->lastLoginAt()->first()?->created_at);
+        return Attribute::get(get: fn () => $this->auditLogin()->lastLoginAt()->first()?->created_at);
     }
 
     /**
      * Get the last login at attribute.
-     *
-     * @return Attribute
      */
     public function lastSuccessfulLoginAt(): Attribute
     {
-        return Attribute::get(get: fn() => $this->auditLogin()->lastSuccessfulLoginAt()->first()?->created_at);
+        return Attribute::get(get: fn () => $this->auditLogin()->lastSuccessfulLoginAt()->first()?->created_at);
     }
 
     /**
      * Get the last login ip address attribute.
-     *
-     * @return Attribute
      */
     public function lastLoginIpAddress(): Attribute
     {
-        return Attribute::get(get: fn() => $this->auditLogin()->lastLoginIpAddress()->first()?->created_at);
+        return Attribute::get(get: fn () => $this->auditLogin()->lastLoginIpAddress()->first()?->created_at);
     }
 
     /**
      * Get the last login ip address attribute.
-     *
-     * @return Attribute
      */
     public function lastSuccessfulLoginIpAddress(): Attribute
     {
-        return Attribute::get(get: fn() => $this->auditLogin()->lastSuccessfulLoginIpAddress()->first()?->created_at);
+        return Attribute::get(get: fn () => $this->auditLogin()->lastSuccessfulLoginIpAddress()->first()?->created_at);
     }
 }

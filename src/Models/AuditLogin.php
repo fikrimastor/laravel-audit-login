@@ -34,8 +34,6 @@ class AuditLogin extends Model
 
     /**
      * Scope a query to only include the last login event.
-     *
-     * @param Builder $query
      */
     public function scopeLastLoginAt(Builder $query): void
     {
@@ -44,8 +42,6 @@ class AuditLogin extends Model
 
     /**
      * Scope a query to only include the last successful login event.
-     *
-     * @param Builder $query
      */
     public function scopeLastSuccessfulLoginAt(Builder $query): void
     {
@@ -54,8 +50,6 @@ class AuditLogin extends Model
 
     /**
      * Scope a query to only include the last login ip address.
-     *
-     * @param Builder $query
      */
     public function scopeLastLoginIpAddress(Builder $query): void
     {
@@ -64,8 +58,6 @@ class AuditLogin extends Model
 
     /**
      * Scope a query to only include the last successful login ip address.
-     *
-     * @param Builder $query
      */
     public function scopeLastSuccessfulLoginIpAddress(Builder $query): void
     {
