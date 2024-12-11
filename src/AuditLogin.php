@@ -59,9 +59,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record login event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLoginUsing(string|\Closure $callback): void
     {
@@ -70,9 +67,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLogoutUsing(string|\Closure $callback): void
     {
@@ -81,9 +75,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record forgot password event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordForgotPasswordUsing(string|\Closure $callback): void
     {
@@ -92,9 +83,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record failed login event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordFailedLoginUsing(string|\Closure $callback): void
     {
@@ -103,9 +91,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record registered event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordRegisteredUsing(string|\Closure $callback): void
     {
@@ -114,9 +99,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Attempting event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordAttemptingUsing(string|\Closure $callback): void
     {
@@ -133,9 +115,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Current Device Logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordCurrentDeviceLogoutUsing(string|\Closure $callback): void
     {
@@ -144,9 +123,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Lockout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLockoutUsing(string|\Closure $callback): void
     {
@@ -155,9 +131,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Other Device Logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordOtherDeviceLogoutUsing(string|\Closure $callback): void
     {
@@ -166,9 +139,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Password Reset Link event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordPasswordResetLinkSentUsing(string|\Closure $callback): void
     {
@@ -177,9 +147,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Validated event.
-     *
-     * @param string|\Closure $callback
-     * @return void
      */
     public static function recordValidatedUsing(string|\Closure $callback): void
     {
@@ -188,9 +155,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Verified event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordVerifiedUsing(string|\Closure $callback): void
     {
@@ -199,8 +163,6 @@ class AuditLogin
 
     /**
      * Determine if the attempting event should be logged.
-     *
-     * @return bool
      */
     public static function allowAttemptingLog(): bool
     {
@@ -209,8 +171,6 @@ class AuditLogin
 
     /**
      * Determine if the login event should be logged.
-     *
-     * @return bool
      */
     public static function allowLoginLog(): bool
     {
@@ -219,8 +179,6 @@ class AuditLogin
 
     /**
      * Determine if the logout event should be logged.
-     *
-     * @return bool
      */
     public static function allowLogoutLog(): bool
     {
@@ -229,8 +187,6 @@ class AuditLogin
 
     /**
      * Determine if the failed login event should be logged.
-     *
-     * @return bool
      */
     public static function allowFailedLog(): bool
     {
@@ -239,8 +195,6 @@ class AuditLogin
 
     /**
      * Determine if the password reset event should be logged.
-     *
-     * @return bool
      */
     public static function allowPasswordResetLog(): bool
     {
@@ -249,8 +203,6 @@ class AuditLogin
 
     /**
      * Determine if the registered event should be logged.
-     *
-     * @return bool
      */
     public static function allowRegisteredLog(): bool
     {
@@ -259,8 +211,6 @@ class AuditLogin
 
     /**
      * Determine if the authenticated event should be logged.
-     *
-     * @return bool
      */
     public static function allowAuthenticatedLog(): bool
     {
@@ -269,8 +219,6 @@ class AuditLogin
 
     /**
      * Determine if the current device logout event should be logged.
-     *
-     * @return bool
      */
     public static function allowCurrentDeviceLogoutLog(): bool
     {
@@ -279,8 +227,6 @@ class AuditLogin
 
     /**
      * Determine if the other device logout event should be logged.
-     *
-     * @return bool
      */
     public static function allowOtherDeviceLogoutLog(): bool
     {
@@ -289,8 +235,6 @@ class AuditLogin
 
     /**
      * Determine if the lockout event should be logged.
-     *
-     * @return bool
      */
     public static function allowLockoutLog(): bool
     {
@@ -299,8 +243,6 @@ class AuditLogin
 
     /**
      * Determine if the password reset link sent event should be logged.
-     *
-     * @return bool
      */
     public static function allowPasswordResetLinkSentLog(): bool
     {
@@ -309,8 +251,6 @@ class AuditLogin
 
     /**
      * Determine if the validated event should be logged.
-     *
-     * @return bool
      */
     public static function allowValidatedLog(): bool
     {
@@ -319,8 +259,6 @@ class AuditLogin
 
     /**
      * Determine if the verified event should be logged.
-     *
-     * @return bool
      */
     public static function allowVerifiedLog(): bool
     {
