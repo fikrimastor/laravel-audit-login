@@ -178,9 +178,6 @@ class AuditLogin
     /**
      * Determine if the verified event should be logged.
      * If the event is not provided, it will return false.
-     *
-     * @param EventTypeEnum|null $event
-     * @return bool
      */
     public function allowedLog(?EventTypeEnum $event = null): bool
     {
@@ -205,9 +202,6 @@ class AuditLogin
     /**
      * Get the event class for the specific event.
      *  If the event is not provided, it will return false.
-     *
-     * @param  EventTypeEnum|null  $event
-     * @return string
      */
     public function getEventClass(?EventTypeEnum $event = null): string
     {

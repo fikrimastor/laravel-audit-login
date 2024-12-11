@@ -18,8 +18,6 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login at attribute.
-     *
-     * @return Attribute
      */
     public function lastLoginAt(): Attribute
     {
@@ -28,8 +26,6 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login at attribute.
-     *
-     * @return Attribute
      */
     public function lastSuccessfulLoginAt(): Attribute
     {
@@ -38,8 +34,6 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login ip address attribute.
-     *
-     * @return Attribute
      */
     public function lastLoginIpAddress(): Attribute
     {
@@ -48,8 +42,6 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login ip address attribute.
-     *
-     * @return Attribute
      */
     public function lastSuccessfulLoginIpAddress(): Attribute
     {

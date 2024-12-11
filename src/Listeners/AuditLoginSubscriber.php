@@ -2,7 +2,6 @@
 
 namespace FikriMastor\AuditLogin\Listeners;
 
-use FikriMastor\AuditLogin\Facades\AuditLogin;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Contracts\AttemptingEventContract;
 use FikriMastor\AuditLogin\Contracts\AuthenticatedEventContract;
@@ -18,6 +17,7 @@ use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
 use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
+use FikriMastor\AuditLogin\Facades\AuditLogin;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 
