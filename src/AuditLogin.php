@@ -15,8 +15,22 @@ use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
 use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
 use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use FikriMastor\AuditLogin\Exceptions\BadRequestException;
 use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\CurrentDeviceLogout;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\OtherDeviceLogout;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\PasswordResetLinkSent;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
 
@@ -46,10 +60,10 @@ class AuditLogin
                         return AuditLoginModel::create(array_merge($attributes, $dataMissing));
                     }
 
-                    throw_if(! method_exists($user, 'loginLogs'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
+                    throw_if(! method_exists($user, 'authLogs'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
 
                     // Create an audit entry with a custom event (e.g., login, logout)
-                    return $user->loginLogs()->create($attributes);
+                    return $user->authLogs()->create($attributes);
                 });
             } catch (\Throwable $e) {
                 report($e);
@@ -162,106 +176,56 @@ class AuditLogin
     }
 
     /**
-     * Determine if the attempting event should be logged.
-     */
-    public static function allowAttemptingLog(): bool
-    {
-        return config('audit-login.events.attempting.enabled', false);
-    }
-
-    /**
-     * Determine if the login event should be logged.
-     */
-    public static function allowLoginLog(): bool
-    {
-        return config('audit-login.events.login.enabled', true);
-    }
-
-    /**
-     * Determine if the logout event should be logged.
-     */
-    public static function allowLogoutLog(): bool
-    {
-        return config('audit-login.events.logout.enabled', true);
-    }
-
-    /**
-     * Determine if the failed login event should be logged.
-     */
-    public static function allowFailedLog(): bool
-    {
-        return config('audit-login.events.failed-login.enabled', true);
-    }
-
-    /**
-     * Determine if the password reset event should be logged.
-     */
-    public static function allowPasswordResetLog(): bool
-    {
-        return config('audit-login.events.password-reset.enabled', false);
-    }
-
-    /**
-     * Determine if the registered event should be logged.
-     */
-    public static function allowRegisteredLog(): bool
-    {
-        return config('audit-login.events.registered.enabled', false);
-    }
-
-    /**
-     * Determine if the authenticated event should be logged.
-     */
-    public static function allowAuthenticatedLog(): bool
-    {
-        return config('audit-login.events.authenticated.enabled', false);
-    }
-
-    /**
-     * Determine if the current device logout event should be logged.
-     */
-    public static function allowCurrentDeviceLogoutLog(): bool
-    {
-        return config('audit-login.events.current-device-logout.enabled', false);
-    }
-
-    /**
-     * Determine if the other device logout event should be logged.
-     */
-    public static function allowOtherDeviceLogoutLog(): bool
-    {
-        return config('audit-login.events.other-device-logout.enabled', false);
-    }
-
-    /**
-     * Determine if the lockout event should be logged.
-     */
-    public static function allowLockoutLog(): bool
-    {
-        return config('audit-login.events.lockout.enabled', false);
-    }
-
-    /**
-     * Determine if the password reset link sent event should be logged.
-     */
-    public static function allowPasswordResetLinkSentLog(): bool
-    {
-        return config('audit-login.events.password-reset-link-sent.enabled', false);
-    }
-
-    /**
-     * Determine if the validated event should be logged.
-     */
-    public static function allowValidatedLog(): bool
-    {
-        return config('audit-login.events.validated.enabled', false);
-    }
-
-    /**
      * Determine if the verified event should be logged.
+     * If the event is not provided, it will return false.
+     *
+     * @param EventTypeEnum|null $event
+     * @return bool
      */
-    public static function allowVerifiedLog(): bool
+    public function allowedLog(?EventTypeEnum $event = null): bool
     {
-        return config('audit-login.events.verified.enabled', false);
+        return match ($event) {
+            EventTypeEnum::ATTEMPTING => config('audit-login.events.attempting.enabled', false),
+            EventTypeEnum::LOGOUT => config('audit-login.events.logout.enabled', true),
+            EventTypeEnum::FAILED_LOGIN => config('audit-login.events.failed-login.enabled', true),
+            EventTypeEnum::REGISTER => config('audit-login.events.registered.enabled', false),
+            EventTypeEnum::AUTHENTICATED => config('audit-login.events.authenticated.enabled', false),
+            EventTypeEnum::CURRENT_DEVICE_LOGOUT => config('audit-login.events.current-device-logout.enabled', false),
+            EventTypeEnum::LOCKOUT => config('audit-login.events.lockout.enabled', false),
+            EventTypeEnum::OTHER_DEVICE_LOGOUT => config('audit-login.events.other-device-logout.enabled', false),
+            EventTypeEnum::RESET_PASSWORD => config('audit-login.events.password-reset.enabled', false),
+            EventTypeEnum::PASSWORD_RESET_LINK_SENT => config('audit-login.events.password-reset-link-sent.enabled', false),
+            EventTypeEnum::VALIDATED => config('audit-login.events.validated.enabled', false),
+            EventTypeEnum::VERIFIED => config('audit-login.events.verified.enabled', false),
+            EventTypeEnum::LOGIN => config('audit-login.events.login.enabled', true),
+            default => false,
+        };
+    }
+
+    /**
+     * Get the event class for the specific event.
+     *  If the event is not provided, it will return false.
+     *
+     * @param  EventTypeEnum|null  $event
+     * @return string
+     */
+    public function getEventClass(?EventTypeEnum $event = null): string
+    {
+        return match ($event) {
+            EventTypeEnum::ATTEMPTING => config('audit-login.events.attempting.class', Attempting::class),
+            EventTypeEnum::LOGOUT => config('audit-login.events.logout.class', Logout::class),
+            EventTypeEnum::FAILED_LOGIN => config('audit-login.events.failed-login.class', Failed::class),
+            EventTypeEnum::REGISTER => config('audit-login.events.registered.class', Registered::class),
+            EventTypeEnum::AUTHENTICATED => config('audit-login.events.authenticated.class', Authenticated::class),
+            EventTypeEnum::CURRENT_DEVICE_LOGOUT => config('audit-login.events.current-device-logout.class', CurrentDeviceLogout::class),
+            EventTypeEnum::LOCKOUT => config('audit-login.events.lockout.class', Lockout::class),
+            EventTypeEnum::OTHER_DEVICE_LOGOUT => config('audit-login.events.other-device-logout.class', OtherDeviceLogout::class),
+            EventTypeEnum::RESET_PASSWORD => config('audit-login.events.password-reset.class', PasswordReset::class),
+            EventTypeEnum::PASSWORD_RESET_LINK_SENT => config('audit-login.events.password-reset-link-sent.class', PasswordResetLinkSent::class),
+            EventTypeEnum::VALIDATED => config('audit-login.events.validated.class', Validated::class),
+            EventTypeEnum::VERIFIED => config('audit-login.events.verified.class', Verified::class),
+            EventTypeEnum::LOGIN => config('audit-login.events.login.class', Login::class),
+            default => '',
+        };
     }
 }

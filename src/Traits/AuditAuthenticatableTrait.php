@@ -11,13 +11,15 @@ trait AuditAuthenticatableTrait
     /**
      * Get the audit login relationship.
      */
-    public function loginLogs(): MorphMany
+    public function authLogs(): MorphMany
     {
         return $this->morphMany(AuditLoginModel::class, config('audit-login.user.morph-prefix', 'login_auditable'))->latest('id');
     }
 
     /**
      * Get the last login at attribute.
+     *
+     * @return Attribute
      */
     public function lastLoginAt(): Attribute
     {
@@ -26,6 +28,8 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login at attribute.
+     *
+     * @return Attribute
      */
     public function lastSuccessfulLoginAt(): Attribute
     {
@@ -34,6 +38,8 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login ip address attribute.
+     *
+     * @return Attribute
      */
     public function lastLoginIpAddress(): Attribute
     {
@@ -42,6 +48,8 @@ trait AuditAuthenticatableTrait
 
     /**
      * Get the last login ip address attribute.
+     *
+     * @return Attribute
      */
     public function lastSuccessfulLoginIpAddress(): Attribute
     {
