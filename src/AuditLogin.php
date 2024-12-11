@@ -38,10 +38,6 @@ class AuditLogin
 {
     /**
      * Audit an event.
-     *
-     * @param  object  $event
-     * @param  AuditLoginAttribute  $attributes
-     * @return void
      */
     public function auditEvent(object $event, AuditLoginAttribute $attributes): void
     {
@@ -58,10 +54,6 @@ class AuditLogin
 
     /**
      * Audit a login event.
-     *
-     * @param  object  $event
-     * @param  AuditLoginAttribute  $attributes
-     * @return void
      */
     private function execute(object $event, AuditLoginAttribute $attributes): void
     {
@@ -69,7 +61,7 @@ class AuditLogin
             $user = $event->user ?? null;
             $attributes = $attributes->toArray();
 
-            if (!$user instanceof Authenticatable) {
+            if (! $user instanceof Authenticatable) {
                 return $this->executeNullUser($attributes);
             }
 
@@ -80,17 +72,14 @@ class AuditLogin
 
     /**
      * Execute audit an event for null user.
-     *
-     * @param  array  $attributes
-     * @return AuditLoginModel
      */
     private function executeNullUser(array $attributes): AuditLoginModel
     {
         $morphPrefix = config('audit-login.user.morph-prefix', 'login_auditable');
 
         $dataMissing = [
-            $morphPrefix . '_id' => null,
-            $morphPrefix . '_type' => null,
+            $morphPrefix.'_id' => null,
+            $morphPrefix.'_type' => null,
         ];
 
         return AuditLoginModel::create(array_merge($attributes, $dataMissing));
@@ -99,9 +88,6 @@ class AuditLogin
     /**
      * Execute audit an event for Authenticatable.
      *
-     * @param  Authenticatable  $user
-     * @param  array  $attributes
-     * @return AuditLoginModel
      * @throws \Throwable
      */
     private function executeAuthenticatable(Authenticatable $user, array $attributes): AuditLoginModel
@@ -113,8 +99,6 @@ class AuditLogin
 
     /**
      * Check audit is enabled.
-     *
-     * @return bool
      */
     public function isAuditEnabled(): bool
     {
@@ -123,9 +107,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record login event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLoginUsing(string|\Closure $callback): void
     {
@@ -134,9 +115,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLogoutUsing(string|\Closure $callback): void
     {
@@ -145,9 +123,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record forgot password event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordForgotPasswordUsing(string|\Closure $callback): void
     {
@@ -156,9 +131,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record failed login event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordFailedLoginUsing(string|\Closure $callback): void
     {
@@ -167,9 +139,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record registered event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordRegisteredUsing(string|\Closure $callback): void
     {
@@ -178,9 +147,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Attempting event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordAttemptingUsing(string|\Closure $callback): void
     {
@@ -189,9 +155,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Authenticated event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordAuthenticatedUsing(string|\Closure $callback): void
     {
@@ -200,9 +163,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Current Device Logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordCurrentDeviceLogoutUsing(string|\Closure $callback): void
     {
@@ -211,9 +171,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Lockout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordLockoutUsing(string|\Closure $callback): void
     {
@@ -222,9 +179,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Other Device Logout event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordOtherDeviceLogoutUsing(string|\Closure $callback): void
     {
@@ -233,9 +187,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Password Reset Link event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordPasswordResetLinkSentUsing(string|\Closure $callback): void
     {
@@ -244,9 +195,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Validated event.
-     *
-     * @param  string|\Closure  $callback
-     * @return void
      */
     public static function recordValidatedUsing(string|\Closure $callback): void
     {
@@ -255,9 +203,6 @@ class AuditLogin
 
     /**
      * Register a class / callback that should be used to record Verified event.
-     *
-     * @param string|\Closure $callback
-     * @return void
      */
     public static function recordVerifiedUsing(string|\Closure $callback): void
     {
