@@ -2,15 +2,16 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
+use FikriMastor\AuditLogin\AuditLogin;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Contracts\LoginEventContract;
 
-class LoginEvent extends BaseEvent implements LoginEventContract
+class LoginEvent implements LoginEventContract
 {
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
-        $this->event = $event;
-        $this->attributes = $attributes;
-        $this->execute();
+        AuditLogin::auditEvent($event, $attributes);
+
+        /** Another task like sending emails */
     }
 }
