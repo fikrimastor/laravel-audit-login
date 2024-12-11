@@ -45,7 +45,7 @@ class AuditLoginSubscriber
      */
     public function __construct(public Request $request)
     {
-        $this->auditLoginAttribute = new AuditLoginAttribute($this->request);
+        $this->auditLoginAttribute = new AuditLoginAttribute($request);
     }
 
     /**
