@@ -37,8 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "FikriMastor\\AuditLogin\\": "src/",
-            "FikriMastor\\AuditLogin\\Database\\Factories\\": "database/factories/"
+            "FikriMastor\\AuditLogin\\": "src/"
         }
     },
     "autoload-dev": {

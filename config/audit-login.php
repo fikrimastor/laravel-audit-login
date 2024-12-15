@@ -6,7 +6,7 @@ return [
     'drivers' => [
         'database' => [
             'table' => env('AUDIT_LOGIN_DATABASE_TABLE', 'audit-logins'),
-            'connection' => env('AUDIT_LOGIN_DATABASE_CONNECTION', 'mysql'),
+            'connection' => env('AUDIT_LOGIN_DATABASE_CONNECTION', config('database.default', 'mysql')),
         ],
     ],
     'user' => [
