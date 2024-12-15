@@ -1,8 +1,11 @@
 <?php
 
 use FikriMastor\AuditLogin\Tests\TestModels\User;
-use Illuminate\Auth\Events\{Attempting, Login, Logout};
-use \Illuminate\Support\Facades\{Event, Auth};
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 it('can test event type login successfully dispatched', function () {
     Event::fake();
@@ -36,46 +39,24 @@ it('can test event type attempting successfully dispatched', function () {
     Event::assertDispatched(Attempting::class);
 });
 
-it('can test event type register successfully dispatched', function () {
+it('can test event type register successfully dispatched', function () {});
 
-});
+it('can test event type forgot password successfully dispatched', function () {});
 
-it('can test event type forgot password successfully dispatched', function () {
+it('can test event type reset password successfully dispatched', function () {});
 
-});
+it('can test event type failed login successfully dispatched', function () {});
 
-it('can test event type reset password successfully dispatched', function () {
+it('can test event type authenticated successfully dispatched', function () {});
 
-});
+it('can test event type current device logout successfully dispatched', function () {});
 
-it('can test event type failed login successfully dispatched', function () {
+it('can test event type other device logout successfully dispatched', function () {});
 
-});
+it('can test event type lockout successfully dispatched', function () {});
 
-it('can test event type authenticated successfully dispatched', function () {
+it('can test event type password reset link sent successfully dispatched', function () {});
 
-});
+it('can test event type validated successfully dispatched', function () {});
 
-it('can test event type current device logout successfully dispatched', function () {
-
-});
-
-it('can test event type other device logout successfully dispatched', function () {
-
-});
-
-it('can test event type lockout successfully dispatched', function () {
-
-});
-
-it('can test event type password reset link sent successfully dispatched', function () {
-
-});
-
-it('can test event type validated successfully dispatched', function () {
-
-});
-
-it('can test event type verified successfully dispatched', function () {
-
-});
+it('can test event type verified successfully dispatched', function () {});

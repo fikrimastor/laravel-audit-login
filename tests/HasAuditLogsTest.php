@@ -3,10 +3,10 @@
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use FikriMastor\AuditLogin\Tests\TestModels\User;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 it('can test authenticatable class were have authLogs relationship', function () {
-    $user = new User();
+    $user = new User;
 
     expect(method_exists($user, 'authLogs'))->toBeTrue();
 });
