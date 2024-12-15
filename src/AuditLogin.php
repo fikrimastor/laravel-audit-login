@@ -39,13 +39,13 @@ class AuditLogin
     /**
      * Audit an event.
      */
-    public function auditEvent(object $event, AuditLoginAttribute $attributes): void
+    public static function auditEvent(object $event, AuditLoginAttribute $attributes): void
     {
-        if ($this->isAuditEnabled() === true) {
+        if (self::isAuditEnabled() === true) {
             try {
                 throw_if(is_null($attributes->eventType), new BadRequestException('The event type must not be empty.'));
 
-                $this->execute($event, $attributes);
+                self::execute($event, $attributes);
             } catch (\Throwable $e) {
                 report($e);
             }
@@ -55,7 +55,7 @@ class AuditLogin
     /**
      * Audit a login event.
      */
-    private function execute(object $event, AuditLoginAttribute $attributes): void
+    private static function execute(object $event, AuditLoginAttribute $attributes): void
     {
         DB::transaction(function () use ($event, $attributes) {
             $user = $event->user ?? null;
@@ -100,7 +100,7 @@ class AuditLogin
     /**
      * Check audit is enabled.
      */
-    public function isAuditEnabled(): bool
+    public static function isAuditEnabled(): bool
     {
         return config('audit-login.enabled', true);
     }
