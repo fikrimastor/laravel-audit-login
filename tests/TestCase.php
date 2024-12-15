@@ -40,7 +40,6 @@ class TestCase extends Orchestra
         // Use test User model for users provider
         $app['config']->set('auth.providers.users.model', User::class);
 
-
         $schema = $app['db']->connection()->getSchemaBuilder();
 
         $schema->create('users', function (Blueprint $table) {
@@ -53,8 +52,8 @@ class TestCase extends Orchestra
             $morphPrefix = config('audit-login.user.morph-prefix', 'login_auditable');
 
             $table->id();
-            $table->unsignedBigInteger($morphPrefix . '_id')->nullable();
-            $table->string($morphPrefix . '_type')->nullable();
+            $table->unsignedBigInteger($morphPrefix.'_id')->nullable();
+            $table->string($morphPrefix.'_type')->nullable();
             $table->string('event');
             $table->text('metadata')->nullable();
             $table->text('url')->nullable();
@@ -62,10 +61,10 @@ class TestCase extends Orchestra
             $table->string('user_agent', 1023)->nullable();
             $table->timestamps();
 
-            $table->index([$morphPrefix . '_id', $morphPrefix . '_type']);
+            $table->index([$morphPrefix.'_id', $morphPrefix.'_type']);
         });
 
-//        $migration = include __DIR__.'/../database/migrations/create_audit_logins_table.php.stub';
-//        $migration->up();
+        //        $migration = include __DIR__.'/../database/migrations/create_audit_logins_table.php.stub';
+        //        $migration->up();
     }
 }

@@ -3,13 +3,13 @@
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 
 it('can test authenticatable class were have authLogs relationship', function () {
-    $user = new \FikriMastor\AuditLogin\Tests\TestModels\User();
+    $user = new \FikriMastor\AuditLogin\Tests\TestModels\User;
 
     expect(method_exists($user, 'authLogs'))->toBeTrue();
 });
 
 it('can test authenticatable class does not have authLogs relationship', function () {
-    $user = new \FikriMastor\AuditLogin\Tests\TestModels\UserWithoutAuditAuthenticatableTrait();
+    $user = new \FikriMastor\AuditLogin\Tests\TestModels\UserWithoutAuditAuthenticatableTrait;
 
     expect(method_exists($user, 'authLogs'))->toBeFalse();
 });
