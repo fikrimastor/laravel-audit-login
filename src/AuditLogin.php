@@ -39,41 +39,44 @@ class AuditLogin
     /**
      * Audit an event.
      */
-    public static function auditEvent(object $event, AuditLoginAttribute $attributes): void
+    public static function auditEvent(object $event, AuditLoginAttribute $attributes): ?AuditLoginModel
     {
+        $auditLog = null;
         if (self::isAuditEnabled() === true) {
             try {
                 throw_if(is_null($attributes->eventType), new BadRequestException('The event type must not be empty.'));
 
-                self::execute($event, $attributes);
+                $auditLog = self::execute($event, $attributes);
             } catch (\Throwable $e) {
                 report($e);
             }
         }
+
+        return $auditLog;
     }
 
     /**
      * Audit a login event.
      */
-    private static function execute(object $event, AuditLoginAttribute $attributes): void
+    private static function execute(object $event, AuditLoginAttribute $attributes): AuditLoginModel
     {
-        DB::transaction(function () use ($event, $attributes) {
+        return DB::transaction(function () use ($event, $attributes) {
             $user = $event->user ?? null;
             $attributes = $attributes->toArray();
 
             if (! $user instanceof Authenticatable) {
-                return $this->executeNullUser($attributes);
+                return self::executeNullUser($attributes);
             }
 
             // Create an audit entry with a custom event (e.g., login, logout)
-            return $this->executeAuthenticatable($user, $attributes);
+            return self::executeAuthenticatable($user, $attributes);
         });
     }
 
     /**
      * Execute audit an event for null user.
      */
-    private function executeNullUser(array $attributes): AuditLoginModel
+    private static function executeNullUser(array $attributes): AuditLoginModel
     {
         $morphPrefix = config('audit-login.user.morph-prefix', 'login_auditable');
 
@@ -90,7 +93,7 @@ class AuditLogin
      *
      * @throws \Throwable
      */
-    private function executeAuthenticatable(Authenticatable $user, array $attributes): AuditLoginModel
+    private static function executeAuthenticatable(Authenticatable $user, array $attributes): AuditLoginModel
     {
         throw_if(! method_exists($user, 'authLogs'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
 

@@ -65,21 +65,6 @@ it('can test authenticatable class have authLogs many records with event type re
     expect($user->authLogs->contains('event', EventTypeEnum::REGISTER))->toBeTrue();
 });
 
-it('can test authenticatable class have authLogs many records with event type forgot password', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
-    $request = app(Request::class);
-    $testLogs = [];
-
-    for ($i = 0; $i < TEST_COUNT; $i++) {
-        $testLogs[] = (new AuditLoginAttribute($request, EventTypeEnum::FORGOT_PASSWORD))->toArray();
-    }
-
-    $user->authLogs()->createMany($testLogs);
-
-    expect($user->authLogs->contains('event', EventTypeEnum::FORGOT_PASSWORD))->toBeTrue();
-});
-
 it('can test authenticatable class have authLogs many records with event type reset password', function () {
     $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
 

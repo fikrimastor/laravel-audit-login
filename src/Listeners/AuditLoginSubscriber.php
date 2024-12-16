@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 class AuditLoginSubscriber
 {
     public AuditLoginAttribute $auditLoginAttribute;
+    //public Request $request;
 
     /**
      * Create the event listener.
@@ -244,7 +245,7 @@ class AuditLoginSubscriber
             AuditLogin::getEventClass(EventTypeEnum::ATTEMPTING) => 'handleAttemptingEventLog',
             AuditLogin::getEventClass(EventTypeEnum::AUTHENTICATED) => 'handleAuthenticatedEventLog',
             AuditLogin::getEventClass(EventTypeEnum::CURRENT_DEVICE_LOGOUT) => 'handleCurrentDeviceLogoutEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::LOGOUT) => 'handleLockoutEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::LOCKOUT) => 'handleLockoutEventLog',
             AuditLogin::getEventClass(EventTypeEnum::OTHER_DEVICE_LOGOUT) => 'handleOtherDeviceLogoutEventLog',
             AuditLogin::getEventClass(EventTypeEnum::PASSWORD_RESET_LINK_SENT) => 'handlePasswordResetLinkSentEventLog',
             AuditLogin::getEventClass(EventTypeEnum::VALIDATED) => 'handleValidatedEventLog',

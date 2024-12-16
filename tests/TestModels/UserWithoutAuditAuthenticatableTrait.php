@@ -3,11 +3,13 @@
 namespace FikriMastor\AuditLogin\Tests\TestModels;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as AuthenticatableContract;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 
-class UserWithoutAuditAuthenticatableTrait extends Model implements AuthenticatableContract
+class UserWithoutAuditAuthenticatableTrait extends AuthenticatableContract implements MustVerifyEmail
 {
+    use Notifiable;
     use Authenticatable;
 
     protected $fillable = ['email'];
