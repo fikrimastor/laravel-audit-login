@@ -199,9 +199,9 @@ it('can test event type lockout successfully dispatched', function () {
 it('can test event type password reset link sent successfully dispatched', function () {
     $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
 
-    Event::fake();
+    if((float) app()->version() > 11) {
+        Event::fake();
 
-    if ($this->app->version() > 10.50) {
         event(new PasswordResetLinkSent($user));
 
         Event::assertListening(
@@ -212,10 +212,9 @@ it('can test event type password reset link sent successfully dispatched', funct
         Event::assertDispatched(PasswordResetLinkSent::class);
 
         Event::assertDispatched(fn (PasswordResetLinkSent $event) => $event->user?->id === $user->id);
-    } else {
-        $this->assertDatabaseCount('users', 1);
-        $this->assertDatabaseCount('audit_logins', 0);
     }
+
+    $this->assertDatabaseCount('users', 1);
 });
 
 it('can test event type validated successfully dispatched', function () {

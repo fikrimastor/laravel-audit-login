@@ -45,6 +45,7 @@ class AuditLoginSubscriber
     {
         $eventType = EventTypeEnum::LOGIN;
         if (AuditLogin::allowedLog($eventType)) {
+            dd('masuk');
             $this->auditLoginAttribute->eventType($eventType);
 
             resolve(LoginEventContract::class)->handle($event, $this->auditLoginAttribute);
@@ -193,6 +194,11 @@ class AuditLoginSubscriber
      */
     public function handlePasswordResetLinkSentEventLog(object $event): void
     {
+        if ((float) app()->version() < 11) {
+            info('Password reset link sent event is not supported in Laravel 11 below');
+            return;
+        }
+
         $eventType = EventTypeEnum::PASSWORD_RESET_LINK_SENT;
         if (AuditLogin::allowedLog($eventType)) {
             $this->auditLoginAttribute->eventType($eventType);
