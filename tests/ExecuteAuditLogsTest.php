@@ -182,14 +182,19 @@ it('can test event type password reset link sent successfully dispatched', funct
 
     Event::fake();
 
-    event(new PasswordResetLinkSent($user));
+    if ($this->app->version() > 10.50) {
+        event(new PasswordResetLinkSent($user));
 
-    $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::PASSWORD_RESET_LINK_SENT);
+        $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::PASSWORD_RESET_LINK_SENT);
 
-    Event::assertDispatched(fn (PasswordResetLinkSent $event) => AuditLogin::auditEvent($event, $attributes));
+        Event::assertDispatched(fn (PasswordResetLinkSent $event) => AuditLogin::auditEvent($event, $attributes));
 
-    $this->assertDatabaseCount('users', 1);
-    $this->assertDatabaseCount('audit_logins', 1);
+        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseCount('audit_logins', 1);
+    } else {
+        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseCount('audit_logins', 0);
+    }
 });
 
 it('can test event type validated successfully dispatched', function () {
