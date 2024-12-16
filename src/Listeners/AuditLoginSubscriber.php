@@ -196,6 +196,7 @@ class AuditLoginSubscriber
     {
         if ((float) app()->version() < 11) {
             info('Password reset link sent event is not supported in Laravel 11 below');
+
             return;
         }
 

@@ -180,7 +180,7 @@ it('can test event type lockout successfully dispatched', function () {
 it('can test event type password reset link sent successfully dispatched', function () {
     $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
 
-    if((float) app()->version() > 11) {
+    if ((float) app()->version() > 11) {
         Event::fake();
 
         event(new PasswordResetLinkSent($user));
