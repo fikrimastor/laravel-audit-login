@@ -2,22 +2,23 @@
 
 use FikriMastor\AuditLogin\Listeners\AuditLoginSubscriber;
 use FikriMastor\AuditLogin\Tests\TestModels\User;
-use Illuminate\Auth\Events\{Attempting,
-    Authenticated,
-    CurrentDeviceLogout,
-    Failed,
-    Lockout,
-    Login,
-    Logout,
-    OtherDeviceLogout,
-    PasswordReset,
-    PasswordResetLinkSent,
-    Registered,
-    Validated,
-    Verified};
-use \Illuminate\Support\Facades\{Event, Auth};
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\CurrentDeviceLogout;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\OtherDeviceLogout;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\PasswordResetLinkSent;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 uses(RefreshDatabase::class);
 
@@ -32,7 +33,7 @@ it('can test event type login successfully dispatched', function () {
 
     Event::assertDispatched(Login::class);
 
-    Event::assertDispatched(fn (Login $event) =>  $event->user->id === $user->id);
+    Event::assertDispatched(fn (Login $event) => $event->user->id === $user->id);
 
     Event::assertListening(
         Login::class,
@@ -56,7 +57,7 @@ it('can test event type logout successfully dispatched', function () {
 
     Event::assertDispatched(Logout::class);
 
-    Event::assertDispatched(fn (Logout $event) =>  $event->user->id === $user->id);
+    Event::assertDispatched(fn (Logout $event) => $event->user->id === $user->id);
 });
 
 it('can test event type attempting successfully dispatched', function () {
@@ -73,7 +74,7 @@ it('can test event type attempting successfully dispatched', function () {
 
     Event::assertDispatched(Attempting::class);
 
-    Event::assertDispatched(fn (Attempting $event) =>  $event->credentials['email'] === $user->email);
+    Event::assertDispatched(fn (Attempting $event) => $event->credentials['email'] === $user->email);
 });
 
 it('can test event type register successfully dispatched', function () {
