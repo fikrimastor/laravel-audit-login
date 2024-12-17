@@ -3,7 +3,10 @@
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use FikriMastor\AuditLogin\Tests\TestModels\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
+
+uses(RefreshDatabase::class);
 
 it('can test authenticatable class have authLogs many records with event type login', function () {
     $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
