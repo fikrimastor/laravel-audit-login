@@ -16,19 +16,18 @@
         }
     ],
     "require": {
-        "php": "^8.2",
-        "illuminate/auth": "^10.0||^11.0",
-        "illuminate/contracts": "^10.0||^11.0",
-        "illuminate/database": "^10.0||^11.0",
-        "illuminate/support": "^10.0||^11.0",
-        "laravel/fortify": "^1.25",
+        "php": "^8.0",
+        "illuminate/auth": "^8.12|^9.0|^10.0|^11.0",
+        "illuminate/contracts": "^8.12|^9.0|^10.0|^11.0",
+        "illuminate/database": "^8.12|^9.0|^10.0|^11.0",
+        "illuminate/support": "^8.12|^9.0|^10.0|^11.0",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^8.1.1||^7.10.0",
         "larastan/larastan": "^2.9",
-        "orchestra/testbench": "^8.23.4||^9.0.0",
+        "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-arch": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
