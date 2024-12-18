@@ -175,7 +175,7 @@ it('can test event type password reset link sent successfully dispatched', funct
         $this->assertDatabaseCount('audit_logins', 1);
     }
 
-    $this->assertDatabaseCount('users', 1);
+    $this->assertDatabaseCount('audit_logins', 0);
 });
 
 it('can test event type validated successfully dispatched', function () {
