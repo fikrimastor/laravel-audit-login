@@ -23,9 +23,9 @@ class AuditLoginAttribute
     {
         $this->request = $request;
         $this->eventType = $eventType;
-        $this->currentUrl = $this->request->fullUrl();
-        $this->ipAddress = $this->request->ip();
-        $this->userAgent = $this->request->userAgent();
+        $this->currentUrl = $request->fullUrl();
+        $this->ipAddress = $request->ip();
+        $this->userAgent = $request->userAgent();
     }
 
     public function toArray(): array

@@ -2,15 +2,16 @@
 
 namespace FikriMastor\AuditLogin\Actions;
 
+use FikriMastor\AuditLogin\AuditLogin;
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Contracts\OtherDeviceLogoutEventContract;
 
-class OtherDeviceLogoutEvent extends BaseEvent implements OtherDeviceLogoutEventContract
+class OtherDeviceLogoutEvent implements OtherDeviceLogoutEventContract
 {
     public function handle(object $event, AuditLoginAttribute $attributes): void
     {
-        $this->event = $event;
-        $this->attributes = $attributes;
-        $this->execute();
+        AuditLogin::auditEvent($event, $attributes);
+
+        /** Another task like sending emails */
     }
 }

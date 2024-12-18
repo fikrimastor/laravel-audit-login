@@ -17,25 +17,14 @@ use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
 use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
-use Illuminate\Auth\Events\Attempting;
-use Illuminate\Auth\Events\Authenticated;
-use Illuminate\Auth\Events\CurrentDeviceLogout;
-use Illuminate\Auth\Events\Failed;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\OtherDeviceLogout;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Events\PasswordResetLinkSent;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Auth\Events\Verified;
+use FikriMastor\AuditLogin\Facades\AuditLogin;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 
 class AuditLoginSubscriber
 {
     public AuditLoginAttribute $auditLoginAttribute;
+    //public Request $request;
 
     /**
      * Create the event listener.
@@ -44,7 +33,7 @@ class AuditLoginSubscriber
      */
     public function __construct(public Request $request)
     {
-        $this->auditLoginAttribute = new AuditLoginAttribute($this->request);
+        $this->auditLoginAttribute = new AuditLoginAttribute($request);
     }
 
     /**
@@ -54,13 +43,13 @@ class AuditLoginSubscriber
      */
     public function handleLoginEventLog(object $event): void
     {
-        if (config('audit-login.events.login.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::LOGIN;
+        if (AuditLogin::allowedLog($eventType)) {
+            dd('masuk');
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(LoginEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::LOGIN);
-
-        resolve(LoginEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -70,13 +59,12 @@ class AuditLoginSubscriber
      */
     public function handleFailedEventLog(object $event): void
     {
-        if (config('audit-login.events.failed-login.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::FAILED_LOGIN;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(FailedLoginEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::FAILED_LOGIN);
-
-        resolve(FailedLoginEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -86,13 +74,12 @@ class AuditLoginSubscriber
      */
     public function handlePasswordResetEventLog(object $event): void
     {
-        if (config('audit-login.events.password-reset.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::RESET_PASSWORD;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(PasswordResetEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::RESET_PASSWORD);
-
-        resolve(PasswordResetEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -102,13 +89,12 @@ class AuditLoginSubscriber
      */
     public function handleRegisteredEventLog(object $event): void
     {
-        if (config('audit-login.events.registered.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::REGISTER;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(RegisteredEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::REGISTER);
-
-        resolve(RegisteredEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -118,13 +104,12 @@ class AuditLoginSubscriber
      */
     public function handleLogoutEventLog(object $event): void
     {
-        if (config('audit-login.events.logout.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::LOGOUT;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(LogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::LOGOUT);
-
-        resolve(LogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -134,13 +119,12 @@ class AuditLoginSubscriber
      */
     public function handleAttemptingEventLog(object $event): void
     {
-        if (config('audit-login.events.attempting.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::ATTEMPTING;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(AttemptingEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::ATTEMPTING);
-
-        resolve(AttemptingEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -150,13 +134,12 @@ class AuditLoginSubscriber
      */
     public function handleAuthenticatedEventLog(object $event): void
     {
-        if (config('audit-login.events.authenticated.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::AUTHENTICATED;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(AuthenticatedEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::AUTHENTICATED);
-
-        resolve(AuthenticatedEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -166,13 +149,12 @@ class AuditLoginSubscriber
      */
     public function handleCurrentDeviceLogoutEventLog(object $event): void
     {
-        if (config('audit-login.events.current-device-logout.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::CURRENT_DEVICE_LOGOUT;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(CurrentDeviceLogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::CURRENT_DEVICE_LOGOUT);
-
-        resolve(CurrentDeviceLogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -182,13 +164,12 @@ class AuditLoginSubscriber
      */
     public function handleLockoutEventLog(object $event): void
     {
-        if (config('audit-login.events.lockout.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::LOCKOUT;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(LockoutEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::LOCKOUT);
-
-        resolve(LockoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -198,13 +179,12 @@ class AuditLoginSubscriber
      */
     public function handleOtherDeviceLogoutEventLog(object $event): void
     {
-        if (config('audit-login.events.other-device-logout.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::OTHER_DEVICE_LOGOUT;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(OtherDeviceLogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::OTHER_DEVICE_LOGOUT);
-
-        resolve(OtherDeviceLogoutEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -214,13 +194,18 @@ class AuditLoginSubscriber
      */
     public function handlePasswordResetLinkSentEventLog(object $event): void
     {
-        if (config('audit-login.events.password-reset-link-sent.enabled', true) === false) {
+        if ((float) app()->version() < 11) {
+            info('Password reset link sent event is not supported in Laravel 11 below');
+
             return;
         }
 
-        $this->auditLoginAttribute->eventType(EventTypeEnum::PASSWORD_RESET_LINK_SENT);
+        $eventType = EventTypeEnum::PASSWORD_RESET_LINK_SENT;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
 
-        resolve(PasswordResetLinkSentEventContract::class)->handle($event, $this->auditLoginAttribute);
+            resolve(PasswordResetLinkSentEventContract::class)->handle($event, $this->auditLoginAttribute);
+        }
     }
 
     /**
@@ -230,13 +215,12 @@ class AuditLoginSubscriber
      */
     public function handleValidatedEventLog(object $event): void
     {
-        if (config('audit-login.events.validated.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::VALIDATED;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(ValidatedEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::VALIDATED);
-
-        resolve(ValidatedEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -246,13 +230,12 @@ class AuditLoginSubscriber
      */
     public function handleVerifiedEventLog(object $event): void
     {
-        if (config('audit-login.events.verified.enabled', true) === false) {
-            return;
+        $eventType = EventTypeEnum::VERIFIED;
+        if (AuditLogin::allowedLog($eventType)) {
+            $this->auditLoginAttribute->eventType($eventType);
+
+            resolve(VerifiedEventContract::class)->handle($event, $this->auditLoginAttribute);
         }
-
-        $this->auditLoginAttribute->eventType(EventTypeEnum::VERIFIED);
-
-        resolve(VerifiedEventContract::class)->handle($event, $this->auditLoginAttribute);
     }
 
     /**
@@ -261,19 +244,19 @@ class AuditLoginSubscriber
     public function subscribe(Dispatcher $events): array
     {
         return [
-            config('audit-login.events.login.class', Login::class) => 'handleLoginEventLog',
-            config('audit-login.events.logout.class', Logout::class) => 'handleLogoutEventLog',
-            config('audit-login.events.password-reset.class', PasswordReset::class) => 'handlePasswordResetEventLog',
-            config('audit-login.events.failed-login.class', Failed::class) => 'handleFailedEventLog',
-            config('audit-login.events.registered.class', Registered::class) => 'handleRegisteredEventLog',
-            config('audit-login.events.attempting.class', Attempting::class) => 'handleAttemptingEventLog',
-            config('audit-login.events.authenticated.class', Authenticated::class) => 'handleAuthenticatedEventLog',
-            config('audit-login.events.current-device-logout.class', CurrentDeviceLogout::class) => 'handleCurrentDeviceLogoutEventLog',
-            config('audit-login.events.lockout.class', Lockout::class) => 'handleLockoutEventLog',
-            config('audit-login.events.other-device-logout.class', OtherDeviceLogout::class) => 'handleOtherDeviceLogoutEventLog',
-            config('audit-login.events.password-reset-link-sent.class', PasswordResetLinkSent::class) => 'handlePasswordResetLinkSentEventLog',
-            config('audit-login.events.validated.class', Validated::class) => 'handleValidatedEventLog',
-            config('audit-login.events.verified.class', Verified::class) => 'handleVerifiedEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::LOGIN) => 'handleLoginEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::LOGOUT) => 'handleLogoutEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::RESET_PASSWORD) => 'handlePasswordResetEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::FAILED_LOGIN) => 'handleFailedEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::REGISTER) => 'handleRegisteredEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::ATTEMPTING) => 'handleAttemptingEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::AUTHENTICATED) => 'handleAuthenticatedEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::CURRENT_DEVICE_LOGOUT) => 'handleCurrentDeviceLogoutEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::LOCKOUT) => 'handleLockoutEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::OTHER_DEVICE_LOGOUT) => 'handleOtherDeviceLogoutEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::PASSWORD_RESET_LINK_SENT) => 'handlePasswordResetLinkSentEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::VALIDATED) => 'handleValidatedEventLog',
+            AuditLogin::getEventClass(EventTypeEnum::VERIFIED) => 'handleVerifiedEventLog',
         ];
     }
 }

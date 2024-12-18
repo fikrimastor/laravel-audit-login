@@ -15,8 +15,22 @@ use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
 use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
 use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
 use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
+use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use FikriMastor\AuditLogin\Exceptions\BadRequestException;
 use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\CurrentDeviceLogout;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\OtherDeviceLogout;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\PasswordResetLinkSent;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
 
@@ -25,38 +39,73 @@ class AuditLogin
     /**
      * Audit an event.
      */
-    public static function auditEvent(object $event, AuditLoginAttribute $attributes): void
+    public static function auditEvent(object $event, AuditLoginAttribute $attributes): ?AuditLoginModel
     {
-        if (config('audit-login.enabled') === true) {
+        $auditLog = null;
+        if (self::isAuditEnabled() === true) {
             try {
                 throw_if(is_null($attributes->eventType), new BadRequestException('The event type must not be empty.'));
 
-                DB::transaction(static function () use ($event, $attributes) {
-                    $user = $event->user ?? null;
-                    $attributes = $attributes->toArray();
-
-                    if (! $user instanceof Authenticatable) {
-                        $morphPrefix = config('audit-login.user.morph-prefix');
-
-                        $dataMissing = [
-                            $morphPrefix.'_id' => null,
-                            $morphPrefix.'_type' => $morphPrefix,
-                        ];
-
-                        return AuditLoginModel::create(array_merge($attributes, $dataMissing));
-                    }
-
-                    throw_if(! method_exists($user, 'auditLogin'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
-
-                    // Create an audit entry with a custom event (e.g., login, logout)
-                    return $user->auditLogin()->create($attributes);
-                });
+                $auditLog = self::execute($event, $attributes);
             } catch (\Throwable $e) {
                 report($e);
             }
-
-            return;
         }
+
+        return $auditLog;
+    }
+
+    /**
+     * Audit a login event.
+     */
+    private static function execute(object $event, AuditLoginAttribute $attributes): AuditLoginModel
+    {
+        return DB::transaction(function () use ($event, $attributes) {
+            $user = $event->user ?? null;
+            $attributes = $attributes->toArray();
+
+            if (! $user instanceof Authenticatable) {
+                return self::executeNullUser($attributes);
+            }
+
+            // Create an audit entry with a custom event (e.g., login, logout)
+            return self::executeAuthenticatable($user, $attributes);
+        });
+    }
+
+    /**
+     * Execute audit an event for null user.
+     */
+    private static function executeNullUser(array $attributes): AuditLoginModel
+    {
+        $morphPrefix = config('audit-login.user.morph-prefix', 'login_auditable');
+
+        $dataMissing = [
+            $morphPrefix.'_id' => null,
+            $morphPrefix.'_type' => null,
+        ];
+
+        return AuditLoginModel::create(array_merge($attributes, $dataMissing));
+    }
+
+    /**
+     * Execute audit an event for Authenticatable.
+     *
+     * @throws \Throwable
+     */
+    private static function executeAuthenticatable(Authenticatable $user, array $attributes): AuditLoginModel
+    {
+        throw_if(! method_exists($user, 'authLogs'), new BadRequestException('The user model must use the AuditAuthenticatableTrait.'));
+
+        return $user->authLogs()->create($attributes);
+    }
+
+    /**
+     * Check audit is enabled.
+     */
+    public static function isAuditEnabled(): bool
+    {
+        return config('audit-login.enabled', true);
     }
 
     /**
@@ -161,5 +210,53 @@ class AuditLogin
     public static function recordVerifiedUsing(string|\Closure $callback): void
     {
         app()->singleton(VerifiedEventContract::class, $callback);
+    }
+
+    /**
+     * Determine if the verified event should be logged.
+     * If the event is not provided, it will return false.
+     */
+    public function allowedLog(?EventTypeEnum $event = null): bool
+    {
+        return match ($event) {
+            EventTypeEnum::ATTEMPTING => config('audit-login.events.attempting.enabled', false),
+            EventTypeEnum::LOGOUT => config('audit-login.events.logout.enabled', true),
+            EventTypeEnum::FAILED_LOGIN => config('audit-login.events.failed-login.enabled', true),
+            EventTypeEnum::REGISTER => config('audit-login.events.registered.enabled', false),
+            EventTypeEnum::AUTHENTICATED => config('audit-login.events.authenticated.enabled', false),
+            EventTypeEnum::CURRENT_DEVICE_LOGOUT => config('audit-login.events.current-device-logout.enabled', false),
+            EventTypeEnum::LOCKOUT => config('audit-login.events.lockout.enabled', false),
+            EventTypeEnum::OTHER_DEVICE_LOGOUT => config('audit-login.events.other-device-logout.enabled', false),
+            EventTypeEnum::RESET_PASSWORD => config('audit-login.events.password-reset.enabled', false),
+            EventTypeEnum::PASSWORD_RESET_LINK_SENT => config('audit-login.events.password-reset-link-sent.enabled', false),
+            EventTypeEnum::VALIDATED => config('audit-login.events.validated.enabled', false),
+            EventTypeEnum::VERIFIED => config('audit-login.events.verified.enabled', false),
+            EventTypeEnum::LOGIN => config('audit-login.events.login.enabled', true),
+            default => false,
+        };
+    }
+
+    /**
+     * Get the event class for the specific event.
+     *  If the event is not provided, it will return false.
+     */
+    public function getEventClass(?EventTypeEnum $event = null): string
+    {
+        return match ($event) {
+            EventTypeEnum::ATTEMPTING => config('audit-login.events.attempting.class', Attempting::class),
+            EventTypeEnum::LOGOUT => config('audit-login.events.logout.class', Logout::class),
+            EventTypeEnum::FAILED_LOGIN => config('audit-login.events.failed-login.class', Failed::class),
+            EventTypeEnum::REGISTER => config('audit-login.events.registered.class', Registered::class),
+            EventTypeEnum::AUTHENTICATED => config('audit-login.events.authenticated.class', Authenticated::class),
+            EventTypeEnum::CURRENT_DEVICE_LOGOUT => config('audit-login.events.current-device-logout.class', CurrentDeviceLogout::class),
+            EventTypeEnum::LOCKOUT => config('audit-login.events.lockout.class', Lockout::class),
+            EventTypeEnum::OTHER_DEVICE_LOGOUT => config('audit-login.events.other-device-logout.class', OtherDeviceLogout::class),
+            EventTypeEnum::RESET_PASSWORD => config('audit-login.events.password-reset.class', PasswordReset::class),
+            EventTypeEnum::PASSWORD_RESET_LINK_SENT => config('audit-login.events.password-reset-link-sent.class', PasswordResetLinkSent::class),
+            EventTypeEnum::VALIDATED => config('audit-login.events.validated.class', Validated::class),
+            EventTypeEnum::VERIFIED => config('audit-login.events.verified.class', Verified::class),
+            EventTypeEnum::LOGIN => config('audit-login.events.login.class', Login::class),
+            default => '',
+        };
     }
 }

@@ -30,7 +30,7 @@ class AuditLoginServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravel-audit-login')
+            ->name('audit-login')
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_audit_logins_table');
