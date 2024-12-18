@@ -202,9 +202,10 @@ it('can test event type password reset link sent successfully dispatched', funct
         Event::assertDispatched(PasswordResetLinkSent::class);
 
         Event::assertDispatched(fn (PasswordResetLinkSent $event) => $event->user?->id === user()->id);
+    } else {
+        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseCount('audit_logins', 0);
     }
-
-    $this->assertDatabaseCount('audit_logins', 0);
 });
 
 it('can test event type validated successfully dispatched', function () {
