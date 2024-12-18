@@ -4,7 +4,10 @@
     "keywords": [
         "Fikri Mastor",
         "laravel",
-        "audit-login"
+        "audit-login",
+        "queue",
+        "listener",
+        "event"
     ],
     "homepage": "https://github.com/fikrimastor/audit-login",
     "license": "MIT",
