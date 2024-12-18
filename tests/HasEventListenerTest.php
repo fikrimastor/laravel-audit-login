@@ -1,7 +1,6 @@
 <?php
 
 use FikriMastor\AuditLogin\Listeners\AuditLoginSubscriber;
-use FikriMastor\AuditLogin\Tests\TestModels\User;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\CurrentDeviceLogout;
@@ -22,18 +21,20 @@ use Illuminate\Support\Facades\Event;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    migrateTable();
+});
+
 it('can test event type login successfully dispatched', function () {
     Event::fake([Login::class]);
 
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    Auth::login(user());
 
-    Auth::login($user);
-
-    $this->actingAs($user, 'web');
+    $this->actingAs(user(), 'web');
 
     Event::assertDispatched(Login::class);
 
-    Event::assertDispatched(fn (Login $event) => $event->user->id === $user->id);
+    Event::assertDispatched(fn (Login $event) => $event->user->id === user()->id);
 
     Event::assertListening(
         Login::class,
@@ -44,9 +45,9 @@ it('can test event type login successfully dispatched', function () {
 it('can test event type logout successfully dispatched', function () {
     Event::fake();
 
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
-    Auth::login($user);
+    Auth::login(user());
 
     Auth::logout();
 
@@ -57,15 +58,15 @@ it('can test event type logout successfully dispatched', function () {
 
     Event::assertDispatched(Logout::class);
 
-    Event::assertDispatched(fn (Logout $event) => $event->user->id === $user->id);
+    Event::assertDispatched(fn (Logout $event) => $event->user->id === user()->id);
 });
 
 it('can test event type attempting successfully dispatched', function () {
     Event::fake();
 
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
-    Auth::attempt(['password' => $user->password, 'email' => $user->email]);
+    Auth::attempt(['password' => user()->password, 'email' => user()->email]);
 
     Event::assertListening(
         Attempting::class,
@@ -74,15 +75,15 @@ it('can test event type attempting successfully dispatched', function () {
 
     Event::assertDispatched(Attempting::class);
 
-    Event::assertDispatched(fn (Attempting $event) => $event->credentials['email'] === $user->email);
+    Event::assertDispatched(fn (Attempting $event) => $event->credentials['email'] === user()->email);
 });
 
 it('can test event type register successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new Registered($user));
+    event(new Registered(user()));
 
     Event::assertListening(
         Registered::class,
@@ -91,15 +92,15 @@ it('can test event type register successfully dispatched', function () {
 
     Event::assertDispatched(Registered::class);
 
-    Event::assertDispatched(fn (Registered $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (Registered $event) => $event->user?->id === user()->id);
 });
 
 it('can test event type forgot password successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new PasswordReset($user));
+    event(new PasswordReset(user()));
 
     Event::assertListening(
         PasswordReset::class,
@@ -108,15 +109,15 @@ it('can test event type forgot password successfully dispatched', function () {
 
     Event::assertDispatched(PasswordReset::class);
 
-    Event::assertDispatched(fn (PasswordReset $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (PasswordReset $event) => $event->user?->id === user()->id);
 });
 
 it('can test event type failed login successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new Failed('web', $user, ['email' => $user->email]));
+    event(new Failed('web', user(), ['email' => user()->email]));
 
     Event::assertListening(
         Failed::class,
@@ -125,15 +126,15 @@ it('can test event type failed login successfully dispatched', function () {
 
     Event::assertDispatched(Failed::class);
 
-    Event::assertDispatched(fn (Failed $event) => $event->user?->id === $user->id || $event->credentials['email'] === $user->email);
+    Event::assertDispatched(fn (Failed $event) => $event->user?->id === user()->id || $event->credentials['email'] === user()->email);
 });
 
 it('can test event type authenticated successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new Authenticated('web', $user));
+    event(new Authenticated('web', user()));
 
     Event::assertListening(
         Authenticated::class,
@@ -142,15 +143,15 @@ it('can test event type authenticated successfully dispatched', function () {
 
     Event::assertDispatched(Authenticated::class);
 
-    Event::assertDispatched(fn (Authenticated $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (Authenticated $event) => $event->user?->id === user()->id);
 });
 
 it('can test event type current device logout successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new CurrentDeviceLogout('web', $user));
+    event(new CurrentDeviceLogout('web', user()));
 
     Event::assertListening(
         CurrentDeviceLogout::class,
@@ -159,15 +160,15 @@ it('can test event type current device logout successfully dispatched', function
 
     Event::assertDispatched(CurrentDeviceLogout::class);
 
-    Event::assertDispatched(fn (CurrentDeviceLogout $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (CurrentDeviceLogout $event) => $event->user?->id === user()->id);
 });
 
 it('can test event type other device logout successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new OtherDeviceLogout('web', $user));
+    event(new OtherDeviceLogout('web', user()));
 
     Event::assertListening(
         OtherDeviceLogout::class,
@@ -176,7 +177,7 @@ it('can test event type other device logout successfully dispatched', function (
 
     Event::assertDispatched(OtherDeviceLogout::class);
 
-    Event::assertDispatched(fn (OtherDeviceLogout $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (OtherDeviceLogout $event) => $event->user?->id === user()->id);
 });
 
 it('can test event type lockout successfully dispatched', function () {
@@ -197,12 +198,12 @@ it('can test event type lockout successfully dispatched', function () {
 });
 
 it('can test event type password reset link sent successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     if ((float) app()->version() > 11) {
         Event::fake();
 
-        event(new PasswordResetLinkSent($user));
+        event(new PasswordResetLinkSent(user()));
 
         Event::assertListening(
             PasswordResetLinkSent::class,
@@ -211,18 +212,18 @@ it('can test event type password reset link sent successfully dispatched', funct
 
         Event::assertDispatched(PasswordResetLinkSent::class);
 
-        Event::assertDispatched(fn (PasswordResetLinkSent $event) => $event->user?->id === $user->id);
+        Event::assertDispatched(fn (PasswordResetLinkSent $event) => $event->user?->id === user()->id);
     }
 
     $this->assertDatabaseCount('users', 1);
 });
 
 it('can test event type validated successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new Validated('web', $user));
+    event(new Validated('web', user()));
 
     Event::assertListening(
         Validated::class,
@@ -231,15 +232,15 @@ it('can test event type validated successfully dispatched', function () {
 
     Event::assertDispatched(Validated::class);
 
-    Event::assertDispatched(fn (Validated $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (Validated $event) => $event->user?->id === user()->id);
 });
 
 it('can test event type verified successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    
 
     Event::fake();
 
-    event(new Verified($user));
+    event(new Verified(user()));
 
     Event::assertListening(
         Verified::class,
@@ -248,5 +249,5 @@ it('can test event type verified successfully dispatched', function () {
 
     Event::assertDispatched(Verified::class);
 
-    Event::assertDispatched(fn (Verified $event) => $event->user?->id === $user->id);
+    Event::assertDispatched(fn (Verified $event) => $event->user?->id === user()->id);
 });

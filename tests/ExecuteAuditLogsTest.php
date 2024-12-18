@@ -24,14 +24,16 @@ use Illuminate\Support\Facades\Event;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    migrateTable();
+});
+
 it('can test event type login successfully dispatched', function () {
     Event::fake([Login::class]);
 
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
+    Auth::login(user());
 
-    Auth::login($user);
-
-    $this->actingAs($user, 'web');
+    $this->actingAs(user(), 'web');
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::LOGIN);
 
@@ -44,9 +46,7 @@ it('can test event type login successfully dispatched', function () {
 it('can test event type logout successfully dispatched', function () {
     Event::fake();
 
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
-    Auth::login($user);
+    Auth::login(user());
 
     Auth::logout();
 
@@ -61,9 +61,7 @@ it('can test event type logout successfully dispatched', function () {
 it('can test event type attempting successfully dispatched', function () {
     Event::fake();
 
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
-    Auth::attempt(['password' => $user->password, 'email' => $user->email]);
+    Auth::attempt(['password' => user()->password, 'email' => user()->email]);
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::ATTEMPTING);
 
@@ -74,11 +72,9 @@ it('can test event type attempting successfully dispatched', function () {
 });
 
 it('can test event type register successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new Registered($user));
+    event(new Registered(user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::REGISTER);
 
@@ -89,11 +85,9 @@ it('can test event type register successfully dispatched', function () {
 });
 
 it('can test event type forgot password successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new PasswordReset($user));
+    event(new PasswordReset(user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::RESET_PASSWORD);
 
@@ -104,11 +98,9 @@ it('can test event type forgot password successfully dispatched', function () {
 });
 
 it('can test event type failed login successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new Failed('web', $user, ['email' => $user->email]));
+    event(new Failed('web', user(), ['email' => user()->email]));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::FAILED_LOGIN);
 
@@ -119,11 +111,9 @@ it('can test event type failed login successfully dispatched', function () {
 });
 
 it('can test event type authenticated successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new Authenticated('web', $user));
+    event(new Authenticated('web', user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::AUTHENTICATED);
 
@@ -134,11 +124,9 @@ it('can test event type authenticated successfully dispatched', function () {
 });
 
 it('can test event type current device logout successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new CurrentDeviceLogout('web', $user));
+    event(new CurrentDeviceLogout('web', user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::CURRENT_DEVICE_LOGOUT);
 
@@ -149,11 +137,9 @@ it('can test event type current device logout successfully dispatched', function
 });
 
 it('can test event type other device logout successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new OtherDeviceLogout('web', $user));
+    event(new OtherDeviceLogout('web', user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::OTHER_DEVICE_LOGOUT);
 
@@ -178,12 +164,10 @@ it('can test event type lockout successfully dispatched', function () {
 });
 
 it('can test event type password reset link sent successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     if ((float) app()->version() > 11) {
         Event::fake();
 
-        event(new PasswordResetLinkSent($user));
+        event(new PasswordResetLinkSent(user()));
 
         $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::PASSWORD_RESET_LINK_SENT);
 
@@ -196,11 +180,9 @@ it('can test event type password reset link sent successfully dispatched', funct
 });
 
 it('can test event type validated successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    event(new Validated('web', $user));
+    event(new Validated('web', user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::VALIDATED);
 
@@ -211,13 +193,11 @@ it('can test event type validated successfully dispatched', function () {
 });
 
 it('can test event type verified successfully dispatched', function () {
-    $user = User::firstOrCreate(['email' => TEST_USER_EMAIL]);
-
     Event::fake();
 
-    Auth::login($user);
+    Auth::login(user());
 
-    event(new Verified($user));
+    event(new Verified(user()));
 
     $attributes = new AuditLoginAttribute(resolve(Request::class), EventTypeEnum::VERIFIED);
 
