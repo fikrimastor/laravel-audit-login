@@ -3,7 +3,6 @@
 use FikriMastor\AuditLogin\AuditLoginAttribute;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use FikriMastor\AuditLogin\Facades\AuditLogin;
-use FikriMastor\AuditLogin\Tests\TestModels\User;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\CurrentDeviceLogout;

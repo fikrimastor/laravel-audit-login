@@ -45,8 +45,6 @@ it('can test event type login successfully dispatched', function () {
 it('can test event type logout successfully dispatched', function () {
     Event::fake();
 
-    
-
     Auth::login(user());
 
     Auth::logout();
@@ -64,8 +62,6 @@ it('can test event type logout successfully dispatched', function () {
 it('can test event type attempting successfully dispatched', function () {
     Event::fake();
 
-    
-
     Auth::attempt(['password' => user()->password, 'email' => user()->email]);
 
     Event::assertListening(
@@ -79,7 +75,6 @@ it('can test event type attempting successfully dispatched', function () {
 });
 
 it('can test event type register successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -96,7 +91,6 @@ it('can test event type register successfully dispatched', function () {
 });
 
 it('can test event type forgot password successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -113,7 +107,6 @@ it('can test event type forgot password successfully dispatched', function () {
 });
 
 it('can test event type failed login successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -130,7 +123,6 @@ it('can test event type failed login successfully dispatched', function () {
 });
 
 it('can test event type authenticated successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -147,7 +139,6 @@ it('can test event type authenticated successfully dispatched', function () {
 });
 
 it('can test event type current device logout successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -164,7 +155,6 @@ it('can test event type current device logout successfully dispatched', function
 });
 
 it('can test event type other device logout successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -198,7 +188,6 @@ it('can test event type lockout successfully dispatched', function () {
 });
 
 it('can test event type password reset link sent successfully dispatched', function () {
-    
 
     if ((float) app()->version() > 11) {
         Event::fake();
@@ -219,7 +208,6 @@ it('can test event type password reset link sent successfully dispatched', funct
 });
 
 it('can test event type validated successfully dispatched', function () {
-    
 
     Event::fake();
 
@@ -236,7 +224,6 @@ it('can test event type validated successfully dispatched', function () {
 });
 
 it('can test event type verified successfully dispatched', function () {
-    
 
     Event::fake();
 
