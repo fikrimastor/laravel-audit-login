@@ -6,10 +6,13 @@ use FikriMastor\AuditLogin\AuditLoginServiceProvider;
 use FikriMastor\AuditLogin\Tests\TestModels\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();

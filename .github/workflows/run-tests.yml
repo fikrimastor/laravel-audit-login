@@ -21,7 +21,7 @@ jobs:
         exclude:
           - laravel: "^11.0"
             php: 8.1
-          - laravel: "^10.4.1"
+          - laravel: "^10.0"
             php: 8.1
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
@@ -51,4 +51,4 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest --ci
+        run: vendor/bin/pest
