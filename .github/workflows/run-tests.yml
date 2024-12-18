@@ -28,6 +28,8 @@ jobs:
           - laravel: "^10.0"
             php: 8.0
           - laravel: "^8.12"
+            php: 8.0
+          - laravel: "^8.12"
             php: 8.3
           - laravel: "^8.12"
             php: 8.4
