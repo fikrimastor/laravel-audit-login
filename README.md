@@ -45,24 +45,47 @@ return [
 ];
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="audit-login-views"
-```
-
 ## Usage
 
+If you want to custom some actions, for example while user login, you want to sent an email notification, you may create new service provider and defined it in config/app.php.
+
+So, under the new service provider, under the boot method, you can do something like this:
 ```php
+use \FikriMastor\AuditLogin\Facades\AuditLogin;
+use \YourProjectNamespace\YourCustomLoginEventClass;
+
+public function boot(): void
+{
+    AuditLogin::recordLoginUsing(YourCustomLoginEventClass::class);
+}
 
 ```
+
+And then, you can create a new class for your custom login event action class, for example:
+```php
+use \FikriMastor\AuditLogin\Contracts\LoginEventContract;
+
+class YourCustomLoginEventClass implements LoginEventContract
+{
+    public function handle(object $event, AuditLoginAttribute $attributes): void
+    {
+        AuditLogin::auditEvent($event, $attributes);
+        
+        // Do something here
+        
+        // Send email notification
+        
+        
+    }
+}
+````
+
 
 ## Testing
 
 ```bash
 composer test
 ```
-Testing not yet implemented. But open for contribution, please refer to [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Changelog
 
