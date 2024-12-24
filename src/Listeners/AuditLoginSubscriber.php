@@ -3,7 +3,19 @@
 namespace FikriMastor\AuditLogin\Listeners;
 
 use FikriMastor\AuditLogin\AuditLoginAttribute;
-use FikriMastor\AuditLogin\Contracts\{AttemptingEventContract, AuthenticatedEventContract, CurrentDeviceLogoutEventContract, FailedLoginEventContract, LockoutEventContract, LoginEventContract, LogoutEventContract, OtherDeviceLogoutEventContract, PasswordResetEventContract, PasswordResetLinkSentEventContract, RegisteredEventContract, ValidatedEventContract, VerifiedEventContract};
+use FikriMastor\AuditLogin\Contracts\AttemptingEventContract;
+use FikriMastor\AuditLogin\Contracts\AuthenticatedEventContract;
+use FikriMastor\AuditLogin\Contracts\CurrentDeviceLogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\FailedLoginEventContract;
+use FikriMastor\AuditLogin\Contracts\LockoutEventContract;
+use FikriMastor\AuditLogin\Contracts\LoginEventContract;
+use FikriMastor\AuditLogin\Contracts\LogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\OtherDeviceLogoutEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetEventContract;
+use FikriMastor\AuditLogin\Contracts\PasswordResetLinkSentEventContract;
+use FikriMastor\AuditLogin\Contracts\RegisteredEventContract;
+use FikriMastor\AuditLogin\Contracts\ValidatedEventContract;
+use FikriMastor\AuditLogin\Contracts\VerifiedEventContract;
 use FikriMastor\AuditLogin\Enums\EventTypeEnum;
 use FikriMastor\AuditLogin\Facades\AuditLogin;
 use Illuminate\Events\Dispatcher;
