@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fikrimastor/audit-login/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/fikrimastor/audit-login/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/fikrimastor/audit-login.svg?style=flat-square)](https://packagist.org/packages/fikrimastor/audit-login)
 
-Audit login is a another package for [Laravel]() framework. The purpose is to auditing login events
+Audit login is another package for [Laravel](https://laravel.com/) framework. The purpose is auditing login events
 
 ## Support us
 
@@ -47,7 +47,7 @@ return [
 
 ## Usage
 
-If you want to custom some actions, for example while user login, you want to sent an email notification, you may create new service provider and defined it in config/app.php.
+If you want to custom some actions, for example, while user login, you want to send an email notification, you may create new service provider and defined it in config/app.php.
 
 So, under the new service provider, under the boot method, you can do something like this:
 ```php
@@ -80,8 +80,8 @@ class YourCustomLoginEventClass implements LoginEventContract
 }
 ````
 
-The event object consist of the user object logged in,
-and the attributes object is the object that contains the login event attributes.
+The event object consists of the user object logged in,
+and the attribute object is the object that contains the login event attributes.
 
 Some of it use Authenticatable contract, so you can use it to get the user data.
 
