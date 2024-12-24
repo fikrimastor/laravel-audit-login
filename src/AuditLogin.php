@@ -189,7 +189,7 @@ class AuditLogin
      */
     public static function recordPasswordResetLinkSentUsing(string|\Closure $callback): void
     {
-        if (app()->version() >= 11) {
+        if ((float) app()->version() >= 11.36) {
             app()->singleton(PasswordResetLinkSentEventContract::class, $callback);
         }
     }

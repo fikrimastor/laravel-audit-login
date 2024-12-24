@@ -250,7 +250,7 @@ class AuditLoginSubscriber
             \Illuminate\Auth\Events\Verified::class => 'handleVerifiedEventLog',
         ];
 
-        if (app()->version() >= 11) {
+        if ((float) app()->version() >= 11.36) {
             $listeners[\Illuminate\Auth\Events\PasswordResetLinkSent::class] = 'handlePasswordResetLinkSentEventLog';
         }
 
