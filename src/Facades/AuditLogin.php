@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static bool allowedLog(EventTypeEnum|null $event)
- * @method static string getEventClass(EventTypeEnum|null $event)
  * @method static void auditEvent(object $event, AuditLoginAttribute $attributes)
  * @method static void auditLoginEvent(object $event, AuditLoginAttribute $attributes)
  * @method static void auditFailedLoginEvent(object $event, AuditLoginAttribute $attributes)

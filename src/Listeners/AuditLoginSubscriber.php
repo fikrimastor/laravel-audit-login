@@ -24,7 +24,6 @@ use Illuminate\Http\Request;
 class AuditLoginSubscriber
 {
     public AuditLoginAttribute $auditLoginAttribute;
-    //public Request $request;
 
     /**
      * Create the event listener.
@@ -45,7 +44,6 @@ class AuditLoginSubscriber
     {
         $eventType = EventTypeEnum::LOGIN;
         if (AuditLogin::allowedLog($eventType)) {
-            dd('masuk');
             $this->auditLoginAttribute->eventType($eventType);
 
             resolve(LoginEventContract::class)->handle($event, $this->auditLoginAttribute);
@@ -194,12 +192,6 @@ class AuditLoginSubscriber
      */
     public function handlePasswordResetLinkSentEventLog(object $event): void
     {
-        if ((float) app()->version() < 11) {
-            info('Password reset link sent event is not supported in Laravel 11 below');
-
-            return;
-        }
-
         $eventType = EventTypeEnum::PASSWORD_RESET_LINK_SENT;
         if (AuditLogin::allowedLog($eventType)) {
             $this->auditLoginAttribute->eventType($eventType);
@@ -243,20 +235,25 @@ class AuditLoginSubscriber
      */
     public function subscribe(Dispatcher $events): array
     {
-        return [
-            AuditLogin::getEventClass(EventTypeEnum::LOGIN) => 'handleLoginEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::LOGOUT) => 'handleLogoutEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::RESET_PASSWORD) => 'handlePasswordResetEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::FAILED_LOGIN) => 'handleFailedEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::REGISTER) => 'handleRegisteredEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::ATTEMPTING) => 'handleAttemptingEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::AUTHENTICATED) => 'handleAuthenticatedEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::CURRENT_DEVICE_LOGOUT) => 'handleCurrentDeviceLogoutEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::LOCKOUT) => 'handleLockoutEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::OTHER_DEVICE_LOGOUT) => 'handleOtherDeviceLogoutEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::PASSWORD_RESET_LINK_SENT) => 'handlePasswordResetLinkSentEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::VALIDATED) => 'handleValidatedEventLog',
-            AuditLogin::getEventClass(EventTypeEnum::VERIFIED) => 'handleVerifiedEventLog',
+        $listeners = [
+            \Illuminate\Auth\Events\Login::class => 'handleLoginEventLog',
+            \Illuminate\Auth\Events\Logout::class => 'handleLogoutEventLog',
+            \Illuminate\Auth\Events\PasswordReset::class => 'handlePasswordResetEventLog',
+            \Illuminate\Auth\Events\Failed::class => 'handleFailedEventLog',
+            \Illuminate\Auth\Events\Registered::class => 'handleRegisteredEventLog',
+            \Illuminate\Auth\Events\Attempting::class => 'handleAttemptingEventLog',
+            \Illuminate\Auth\Events\Authenticated::class => 'handleAuthenticatedEventLog',
+            \Illuminate\Auth\Events\CurrentDeviceLogout::class => 'handleCurrentDeviceLogoutEventLog',
+            \Illuminate\Auth\Events\Lockout::class => 'handleLockoutEventLog',
+            \Illuminate\Auth\Events\OtherDeviceLogout::class => 'handleOtherDeviceLogoutEventLog',
+            \Illuminate\Auth\Events\Validated::class => 'handleValidatedEventLog',
+            \Illuminate\Auth\Events\Verified::class => 'handleVerifiedEventLog',
         ];
+
+        if ((float) app()->version() >= 11.36) {
+            $listeners[\Illuminate\Auth\Events\PasswordResetLinkSent::class] = 'handlePasswordResetLinkSentEventLog';
+        }
+
+        return $listeners;
     }
 }

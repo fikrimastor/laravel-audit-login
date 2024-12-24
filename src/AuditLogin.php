@@ -20,14 +20,10 @@ use FikriMastor\AuditLogin\Exceptions\BadRequestException;
 use FikriMastor\AuditLogin\Models\AuditLogin as AuditLoginModel;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Authenticated;
-use Illuminate\Auth\Events\CurrentDeviceLogout;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\OtherDeviceLogout;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Events\PasswordResetLinkSent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Auth\Events\Verified;
@@ -193,7 +189,9 @@ class AuditLogin
      */
     public static function recordPasswordResetLinkSentUsing(string|\Closure $callback): void
     {
-        app()->singleton(PasswordResetLinkSentEventContract::class, $callback);
+        if ((float) app()->version() >= 11.36) {
+            app()->singleton(PasswordResetLinkSentEventContract::class, $callback);
+        }
     }
 
     /**
@@ -233,30 +231,6 @@ class AuditLogin
             EventTypeEnum::VERIFIED => config('audit-login.events.verified.enabled', false),
             EventTypeEnum::LOGIN => config('audit-login.events.login.enabled', true),
             default => false,
-        };
-    }
-
-    /**
-     * Get the event class for the specific event.
-     *  If the event is not provided, it will return false.
-     */
-    public function getEventClass(?EventTypeEnum $event = null): string
-    {
-        return match ($event) {
-            EventTypeEnum::ATTEMPTING => config('audit-login.events.attempting.class', Attempting::class),
-            EventTypeEnum::LOGOUT => config('audit-login.events.logout.class', Logout::class),
-            EventTypeEnum::FAILED_LOGIN => config('audit-login.events.failed-login.class', Failed::class),
-            EventTypeEnum::REGISTER => config('audit-login.events.registered.class', Registered::class),
-            EventTypeEnum::AUTHENTICATED => config('audit-login.events.authenticated.class', Authenticated::class),
-            EventTypeEnum::CURRENT_DEVICE_LOGOUT => config('audit-login.events.current-device-logout.class', CurrentDeviceLogout::class),
-            EventTypeEnum::LOCKOUT => config('audit-login.events.lockout.class', Lockout::class),
-            EventTypeEnum::OTHER_DEVICE_LOGOUT => config('audit-login.events.other-device-logout.class', OtherDeviceLogout::class),
-            EventTypeEnum::RESET_PASSWORD => config('audit-login.events.password-reset.class', PasswordReset::class),
-            EventTypeEnum::PASSWORD_RESET_LINK_SENT => config('audit-login.events.password-reset-link-sent.class', PasswordResetLinkSent::class),
-            EventTypeEnum::VALIDATED => config('audit-login.events.validated.class', Validated::class),
-            EventTypeEnum::VERIFIED => config('audit-login.events.verified.class', Verified::class),
-            EventTypeEnum::LOGIN => config('audit-login.events.login.class', Login::class),
-            default => '',
         };
     }
 }
